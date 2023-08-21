@@ -1,2 +1,9 @@
-// Componente do Header
-// Atualização de Ivan Reis
+function Header() {
+  return (
+    <header>
+      <p data-testid="email-field">{ email }</p>
+    </header>
+  );
+}
+
+export default Header;

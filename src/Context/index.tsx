@@ -1,1 +1,1 @@
-// Contexto
+// Contexto para aplicação

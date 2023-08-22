@@ -10,14 +10,21 @@ type HeaderProps = {
 };
 
 export function Header({ title }: HeaderProps) { // Revisar o tipo de title
+  const profile = 'Profile';
+  const doneRecipes = 'Done Recipes';
+  const favoriteRecipes = 'Favorites Recipes';
   return (
+    // Construção de uma lógica para o ícone de pesquisa não aparecer na tela de perfil
     <header>
       <div id="headerByHeader">
         <img src={ Logo } alt="" />
         <h1>Recipe App</h1>
-        <button>
-          <img src={ searchIcon } alt="" />
-        </button>
+      </div>
+      <div id="headerByHeader">
+        { title === profile
+          || doneRecipes
+          || favoriteRecipes ? null
+          : <Link to="/search"><img src={ searchIcon } alt="" /></Link>}
         <Link to="/profile">
           <img data-testid="profile-top-btn" src={ profileIcon } alt="" />
         </Link>

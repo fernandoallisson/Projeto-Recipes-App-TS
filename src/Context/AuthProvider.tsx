@@ -1,37 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { AuthContext } from './index';
 
-export function AuthProvider({ children }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+type AuthProviderProps = {
+  children: React.ReactNode;
+};
 
-  const emailIsValid = (email) => {
-    // Implemente a validação do email (pode usar uma expressão regular)
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [emailState, setEmailState] = useState<string>('');
 
-    return true; // Retorna true se o email for válido
+  const handleSetEmailState = (email: string) => {
+    setEmailState(email);
   };
 
-  const isFormValid = () => {
-    return emailIsValid(email) && password.length > 6;
-  };
-
-  const handleLogin = () => {
-    if (isFormValid()) {
-      // Salve o email no localStorage
-      localStorage.setItem('user', JSON.stringify({ email }));
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const email = JSON.parse(user);
+      setEmailState(email.email);
     }
-  };
+  }, []);
 
   return (
-    <AuthContext.Provider
-      value={ {
-        email,
-        setEmail,
-        password,
-        setPassword,
-        isFormValid,
-        handleLogin } }
-    >
-      {children}
+    <AuthContext.Provider value={ { emailState, handleSetEmailState } }>
+      <div>
+        { children }
+      </div>
     </AuthContext.Provider>
   );
 }

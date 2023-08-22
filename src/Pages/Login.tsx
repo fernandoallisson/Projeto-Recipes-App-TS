@@ -1,20 +1,20 @@
-import { useState, useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserContext, UserProvider } from '../Context';
+import { AuthContext } from '../Context';
 
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const navigate = useNavigate();
-  const { emailState, setEmailState } = useUserContext();
+
+  const { handleSetEmailState } = useContext(AuthContext);
 
   const handleSubmit = () => {
-    navigate('/meals');
     localStorage.setItem('user', JSON.stringify({ email }));
-    setEmailState(email);
+    handleSetEmailState(email);
+    navigate('/meals');
   };
-
   return (
     <label>
       Email:
@@ -37,7 +37,6 @@ export function Login() {
       >
         Enter
       </button>
-      <button onClick={ () => handleSubmit }>teste</button>
     </label>
   );
 }

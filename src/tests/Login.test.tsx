@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Login } from '../Pages/Login';
+import App from '../App';
 
 describe('testando a aplicação', () => {
   const EMAILID = 'email-input';
@@ -47,10 +48,10 @@ describe('testando a aplicação', () => {
 
     expect(loginButton).not.toBeDisabled();
   });
-  test('testa se salva as informações no localStorage', () => {
+  test('testa se a rota muda para /meals', () => {
     render(
       <Router>
-        <Login />
+        <App />
       </Router>,
     );
     const loginButton = screen.getByTestId(LOGINBUTTONID);
@@ -61,8 +62,7 @@ describe('testando a aplicação', () => {
     fireEvent.change(passwordInput, { target: { value: '1234567' } });
     fireEvent.click(loginButton);
 
-    const user = localStorage.getItem('user');
-    const userObject = JSON.parse(user || '{}');
-    expect(userObject.email).toBe('test@test.com');
+    const mealsTitle = screen.getByRole('heading', { name: /comidas/i });
+    expect(mealsTitle).toBeInTheDocument();
   });
 });

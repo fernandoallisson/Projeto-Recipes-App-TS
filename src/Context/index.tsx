@@ -1,8 +1,12 @@
 // Contexto
-import React, { createContext, useContext, useState } from 'react';
+import { createContext } from 'react';
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  return useContext(AuthContext);
+export type UseType = {
+  emailState: string,
+  setEmailState: (email: string) => void,
 };
+
+export const userContext = createContext<UseType>({
+  emailState: '',
+  setEmailState: () => {},
+} as UseType);

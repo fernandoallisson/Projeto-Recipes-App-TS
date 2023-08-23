@@ -31,18 +31,18 @@ export function Header({ title }: HeaderProps) {
             || title === doneRecipes
             || title === favoriteRecipes
           ? null
-          : <button
+          : (
+            <button
               data-testid="toggle-search-button"
               type="button"
               onClick={ toggleSearch }
-          >
-            <img
-              data-testid="search-top-btn"
-              src={ searchIcon }
-              alt=""
-            />
-            {/* eslint-disable-next-line react/jsx-closing-tag-location */}
-          </button>}
+            >
+              <img
+                data-testid="search-top-btn"
+                src={ searchIcon }
+                alt=""
+              />
+            </button>)}
 
         <Link to="/profile">
           <img data-testid="profile-top-btn" src={ profileIcon } alt="" />

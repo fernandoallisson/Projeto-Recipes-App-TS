@@ -1,20 +1,18 @@
 import React from 'react';
 import './App.css';
-import rockGlass from './images/rockGlass.svg';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Route, Routes } from 'react-router-dom';
+import { Login } from './Pages/Login';
+import { Meals } from './Pages/Meals';
+import { AuthProvider } from './Context/AuthProvider';
 
 function App() {
   return (
-    <div className="meals">
-      <span className="logo">TRYBE</span>
-      <object
-        className="rocksGlass"
-        type="image/svg+xml"
-        data={ rockGlass }
-      >
-        Glass
-      </object>
-    </div>
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={ <Login /> } />
+        <Route path="/meals" element={ <Meals /> } />
+      </Routes>
+    </AuthProvider>
   );
 }
 

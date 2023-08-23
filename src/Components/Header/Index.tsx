@@ -9,10 +9,10 @@ export type HeaderProps = {
   title: string;
 };
 
-export function Header({ title }: HeaderProps) { // Revisar o tipo de title
+export function Header({ title }: HeaderProps) {
   const profile = 'Profile';
   const doneRecipes = 'Done Recipes';
-  const favoriteRecipes = 'Favorites Recipes';
+  const favoriteRecipes = 'Favorite Recipes';
   return (
     // Construção de uma lógica para o ícone de pesquisa não aparecer na tela de perfil
     <header>
@@ -22,15 +22,15 @@ export function Header({ title }: HeaderProps) { // Revisar o tipo de title
       </div>
       <div id="headerByHeader">
         { title === profile
-          || doneRecipes
-          || favoriteRecipes ? null
+          || title === doneRecipes
+          || title === favoriteRecipes
+          ? null
           : <Link to="/search">
             <img
               data-testid="search-top-btn"
               src={ searchIcon }
               alt=""
             />
-
             </Link>}
         <Link to="/profile">
           <img data-testid="profile-top-btn" src={ profileIcon } alt="" />

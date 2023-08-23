@@ -41,8 +41,8 @@ export function Header({ title }: HeaderProps) {
               src={ searchIcon }
               alt=""
             />
-            {/* eslint-disable-next-line react/jsx-indent */}
-            </button>}
+            {/* eslint-disable-next-line react/jsx-closing-tag-location */}
+          </button>}
 
         <Link to="/profile">
           <img data-testid="profile-top-btn" src={ profileIcon } alt="" />

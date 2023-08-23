@@ -17,7 +17,7 @@ export function Profile() {
       </div>
 
       <label htmlFor="email">
-        <div>   
+        <div>
           <h1>{emailState}</h1>
         </div>
         <button

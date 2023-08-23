@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import Logo from '../../images/Logo.svg';
@@ -13,33 +14,50 @@ export function Header({ title }: HeaderProps) {
   const profile = 'Profile';
   const doneRecipes = 'Done Recipes';
   const favoriteRecipes = 'Favorite Recipes';
+
+  const [isSearchVisible, setSearchVisible] = useState(false);
+
+  const toggleSearch = () => {
+    setSearchVisible(!isSearchVisible);
+  };
   return (
-    // Construção de uma lógica para o ícone de pesquisa não aparecer na tela de perfil
     <header>
       <div id="headerByHeader">
         <img src={ Logo } alt="" />
         <h1>Recipe App</h1>
       </div>
       <div id="headerByHeader">
-        { title === profile
-          || title === doneRecipes
-          || title === favoriteRecipes
+        {title === profile
+            || title === doneRecipes
+            || title === favoriteRecipes
           ? null
-          : <Link to="/search">
+          : <button
+              data-testid="toggle-search-button"
+              type="button"
+              onClick={ toggleSearch }
+          >
             <img
               data-testid="search-top-btn"
               src={ searchIcon }
               alt=""
             />
-            </Link>}
+            </button>}
+
         <Link to="/profile">
           <img data-testid="profile-top-btn" src={ profileIcon } alt="" />
         </Link>
       </div>
       <div id="title">
         <img src={ title === 'Meals' ? drinkIcon : mealIcon } alt="" />
-        <h1 data-testid="page-title">{ title }</h1>
+        <h1 data-testid="page-title">{title}</h1>
       </div>
+      {isSearchVisible && (
+        <input
+          type="text"
+          data-testid="search-input"
+          placeholder="Pesquisar..."
+        />
+      )}
     </header>
   );
 }

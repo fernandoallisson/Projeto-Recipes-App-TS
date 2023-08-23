@@ -9,7 +9,8 @@ export function Meals() {
   const { emailState } = useContext(AuthContext);
 
   const handleSubmit = () => {
-    const { pathname } = window.location;
+    // const { pathname } = window.location;
+
   };
   return (
 

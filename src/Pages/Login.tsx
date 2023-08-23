@@ -15,6 +15,7 @@ export function Login() {
     handleSetEmailState(email);
     navigate('/meals');
   };
+
   return (
     <label>
       Email:

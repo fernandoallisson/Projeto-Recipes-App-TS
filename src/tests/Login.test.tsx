@@ -62,7 +62,7 @@ describe('testando a aplicação', () => {
     fireEvent.change(passwordInput, { target: { value: '1234567' } });
     fireEvent.click(loginButton);
 
-    const mealsTitle = screen.getByRole('heading', { name: /comidas/i });
+    const mealsTitle = screen.getByRole('heading', { name: /Meals/i });
     expect(mealsTitle).toBeInTheDocument();
   });
 });

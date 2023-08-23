@@ -41,6 +41,7 @@ export function Header({ title }: HeaderProps) {
               src={ searchIcon }
               alt=""
             />
+            {/* eslint-disable-next-line react/jsx-indent */}
             </button>}
 
         <Link to="/profile">

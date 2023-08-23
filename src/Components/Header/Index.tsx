@@ -24,7 +24,14 @@ export function Header({ title }: HeaderProps) { // Revisar o tipo de title
         { title === profile
           || doneRecipes
           || favoriteRecipes ? null
-          : <Link to="/search"><img src={ searchIcon } alt="" /></Link>}
+          : <Link to="/search">
+            <img
+              data-testid="search-top-btn"
+              src={ searchIcon }
+              alt=""
+            />
+
+            </Link>}
         <Link to="/profile">
           <img data-testid="profile-top-btn" src={ profileIcon } alt="" />
         </Link>

@@ -5,7 +5,7 @@ import { Header, HeaderProps } from '../Components/Header/Index';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
-export function DoneRecipes({ title }: HeaderProps) {
+export function DoneRecipes() {
   const { emailState } = useContext(AuthContext);
 
   const handleSubmit = () => {

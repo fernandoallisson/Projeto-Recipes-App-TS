@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../Context/index';
 import { Header, HeaderProps } from '../Components/Header/Index';
 
-export function Drinks({ title }: HeaderProps) {
+export function Drinks() {
   const { emailState } = useContext(AuthContext);
 
   const handleSubmit = () => {

@@ -7,4 +7,12 @@ export type AuthContextType = {
   handleSetEmailState: (email: string) => void;
 };
 
+export type FetchMealsContextType = {
+  meals: any;
+};
+
 export const AuthContext = createContext({} as AuthContextType);
+
+export const FetchMealsContext = createContext({} as any);
+
+export const FetchDrinksContext = createContext({} as any);

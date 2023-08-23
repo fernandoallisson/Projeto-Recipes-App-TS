@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { getSearchByFirstLetter,
+  getSearchByIngredient, getSearchByName } from '../Services';
 
 export function SearchBar() {
   const [input, setInput] = useState('');
   const [filter, setFilter] = useState('');
-  const [dataApi, setDataApi] = useState('');
 
-  useEffect(() => {
+  const handleFetchApi = async () => {
     switch (filter) {
       case 'name':
-        setDataApi(`https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`);
+        getSearchByName(input);
         break;
       case 'ingredient':
-        setDataApi(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${input}`);
+        getSearchByIngredient(input);
         break;
       case 'firstLetter':
         if (input.length === 1) {
-          setDataApi(`https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`);
+          getSearchByFirstLetter(input);
         } else {
           window.alert('Your search must have only 1 (one) character');
         }
@@ -23,18 +24,14 @@ export function SearchBar() {
       default:
         console.log('Please, select an option');
     }
-  }, [filter, input]);
-
-  const fetchApi = async () => {
-    const response = await fetch(dataApi);
-    const data = await response.json();
-    return data;
   };
-
-  console.log(filter);
+  const handleTeste = () => {
+    console.log('Teste');
+  };
 
   return (
     <div>
+      <button onClick={ handleTeste }>Teste</button>
       <label data-testid="search-top-btn">
         <input
           type="text"
@@ -69,6 +66,7 @@ export function SearchBar() {
       </label>
       <button
         data-testid="exec-search-btn"
+        onClick={ handleFetchApi }
       >
         Search
       </button>

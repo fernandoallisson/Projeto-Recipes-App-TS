@@ -5,7 +5,7 @@ import { Header, HeaderProps } from '../Components/Header/Index';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
-export function Meals({ title }: HeaderProps) {
+export function DoneRecipes({ title }: HeaderProps) {
   const { emailState } = useContext(AuthContext);
 
   const handleSubmit = () => {
@@ -15,7 +15,7 @@ export function Meals({ title }: HeaderProps) {
 
     <>
       <div>
-        <Header title="Meals" />
+        <Header title="Done Recipes" />
         <h1>{emailState}</h1>
       </div>
       {/* <div id="headerByHeader">

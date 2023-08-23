@@ -5,7 +5,7 @@ import Logo from '../../images/Logo.svg';
 import mealIcon from '../../images/mealIcon.svg';
 import drinkIcon from '../../images/drinkIcon.svg';
 
-type HeaderProps = {
+export type HeaderProps = {
   title: string;
 };
 
@@ -30,7 +30,7 @@ export function Header({ title }: HeaderProps) { // Revisar o tipo de title
         </Link>
       </div>
       <div id="title">
-        <img src={ title === 'Meals' ? mealIcon : drinkIcon } alt="" />
+        <img src={ title === 'Meals' ? drinkIcon : mealIcon } alt="" />
         <h1 data-testid="page-title">{ title }</h1>
       </div>
     </header>

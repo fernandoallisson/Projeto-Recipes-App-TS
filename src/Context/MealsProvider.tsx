@@ -7,7 +7,7 @@ type MealsProviderProps = {
 };
 
 export function MealsProvider({ children }: MealsProviderProps) {
-  const [mealsState, setMealsState] = useState<[]>([]);
+  const [mealsState, setMealsState] = useState<any>([]);
 
   const handleSetMealsState = (meals: []) => {
     setMealsState(meals);

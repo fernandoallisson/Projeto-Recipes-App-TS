@@ -1,72 +1,74 @@
-import { useEffect, useState } from 'react';
-import { getSearchByFirstLetter,
-  getSearchByIngredient } from '../Services';
-
-  type ProductType = {
-    meals: [{
-      idMeal: string;
-      strArea: string;
-    }];
-  };
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getSearchDrinksByFirstLetter,
+  getSearchDrinksByIngredient,
+  getSearchDrinksByName,
+  getSearchMealsByFirstLetter,
+  getSearchMealsByIngredient,
+  getSearchMealsByName } from '../Services';
 
 export function SearchBar() {
-  const [input, setInput] = useState('');
-  const [filter, setFilter] = useState('name');
-  const [productInfoByName, setProductInfo] = useState<ProductType[]>([]);
+  const [input, setInput] = useState(''); // input do usuário
+  const [filter, setFilter] = useState(''); // filtro selecionado pelo usuário
+  const [productInfo, setProductInfo] = useState([]); // informações do produto que posteriormente serão armaenadas no contexto
 
-  const fetchProductInfoByName = async () => {
-    const response = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`,
-    );
-    const data = await response.json();
-    return data;
-  };
+  const location = useLocation();
 
-  const fetchProductInfoByIngredient = async () => {
-    const response = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/filter.php?i=${input}`,
-    );
-    const data = await response.json();
-    setProductInfo(data);
-    return data;
-  };
-
-  const fetchProductInfoByFL = async () => {
-    const response = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`,
-    );
-    const data = await response.json();
-    setProductInfo(data);
-    return data;
-  };
-
-  const handleFetchApi = async () => {
-    switch (filter) {
-      case 'name':
-        setProductInfo(await fetchProductInfoByName());
-        break;
-      case 'ingredient':
-        setProductInfo(await fetchProductInfoByIngredient());
-        break;
-      case 'firstLetter':
-        if (input.length === 1) {
-          setProductInfo(await fetchProductInfoByFL());
-        } else {
-          window.alert('Your search must have only 1 (one) character');
-        }
-        break;
-      default:
-        console.log('Please, select an option');
+  const handleChangeRadios = (e: any) => {
+    if (location.pathname === '/meals') {
+      setFilter(`M${e.target.value}`);
+    } else if (location.pathname === '/drinks') {
+      setFilter(`D${e.target.value}`);
     }
   };
-  const handleTeste = () => {
-    console.log('Teste');
-    // const { idMeal, strArea } = productInfoByName[0];
-    console.log(productInfoByName);
+
+  const Condicao = async () => {
+    if (location.pathname === '/meals') {
+      switch (filter) {
+        case 'Mname':
+          setProductInfo(await getSearchMealsByName(input));
+          break;
+        case 'Mingredient':
+          setProductInfo(await getSearchMealsByIngredient(input));
+          break;
+        case 'MfirstLetter':
+          if (input.length === 1) {
+            setProductInfo(await getSearchMealsByFirstLetter(input));
+          } else {
+            window.alert('Your search must have only 1 (one) character');
+          }
+          break;
+        default:
+          console.log('Please, select an option');
+      }
+    }
+    if (location.pathname === '/drinks') {
+      switch (filter) {
+        case 'Dname':
+          setProductInfo(await getSearchDrinksByName(input));
+          break;
+        case 'Dingredient':
+          setProductInfo(await getSearchDrinksByIngredient(input));
+          break;
+        case 'DfirstLetter':
+          if (input.length === 1) {
+            setProductInfo(await getSearchDrinksByFirstLetter(input));
+          } else {
+            window.alert('Your search must have only 1 (one) character');
+          }
+          break;
+        default:
+          console.log('Please, select an option');
+      }
+    }
+  };
+
+  const handleTeste = async () => {
+    console.log(filter);
+    console.log(productInfo);
   };
   return (
     <div>
-
       <button onClick={ handleTeste }>Teste</button>
       <label data-testid="search-top-btn">
         <input
@@ -81,7 +83,7 @@ export function SearchBar() {
           type="radio"
           value="ingredient"
           data-testid="ingredient-search-radio"
-          onChange={ (e) => setFilter(e.target.value) }
+          onChange={ handleChangeRadios }
         />
         Name
         <input
@@ -89,7 +91,7 @@ export function SearchBar() {
           type="radio"
           value="name"
           data-testid="name-search-radio"
-          onChange={ (e) => setFilter(e.target.value) }
+          onChange={ handleChangeRadios }
         />
         First letter
         <input
@@ -97,12 +99,12 @@ export function SearchBar() {
           type="radio"
           value="firstLetter"
           data-testid="first-letter-search-radio"
-          onChange={ (e) => setFilter(e.target.value) }
+          onChange={ handleChangeRadios }
         />
       </label>
       <button
         data-testid="exec-search-btn"
-        onClick={ handleFetchApi }
+        onClick={ Condicao }
       >
         Search
       </button>

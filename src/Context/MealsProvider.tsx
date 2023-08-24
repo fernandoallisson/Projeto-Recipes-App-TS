@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getSearchByName } from '../Services';
+import { getSearchMealsByName } from '../Services';
 import { FetchMealsContext } from './index';
 
 type MealsProviderProps = {
@@ -15,7 +15,7 @@ export function MealsProvider({ children }: MealsProviderProps) {
 
   useEffect(() => {
     const fetchProductInfo = async () => {
-      const mealsInfoApi = await getSearchByName('');
+      const mealsInfoApi = await getSearchMealsByName(''); // Pega tudo de meals do Nome
       setMealsState(mealsInfoApi);
     };
     fetchProductInfo();
@@ -23,9 +23,7 @@ export function MealsProvider({ children }: MealsProviderProps) {
 
   return (
     <FetchMealsContext.Provider value={ { mealsState, handleSetMealsState } }>
-      <div>
-        { children }
-      </div>
+      { children }
     </FetchMealsContext.Provider>
   );
 }

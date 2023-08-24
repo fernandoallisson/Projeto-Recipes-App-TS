@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getSearchByName } from '../Services';
+import { getSearchDrinksByName } from '../Services';
 import { FetchDrinksContext } from './index';
 
 type DrinksProviderProps = {
@@ -9,13 +9,13 @@ type DrinksProviderProps = {
 export function DrinksProvider({ children }: DrinksProviderProps) {
   const [drinksState, setDrinksState] = useState<any>([]);
 
-  const handleSetDrinksState = (drinks: []) => {
+  const handleSetDrinksState = (drinks:[]) => {
     setDrinksState(drinks);
   };
 
   useEffect(() => {
     const fetchProductInfo = async () => {
-      const drinksInfoApi = await getSearchByName('');
+      const drinksInfoApi = await getSearchDrinksByName('');
       setDrinksState(drinksInfoApi);
     };
     fetchProductInfo();

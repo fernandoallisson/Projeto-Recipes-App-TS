@@ -12,12 +12,27 @@ export type FetchMealsContextType = {
   handleSetMealsState: (meals: []) => void;
 };
 
+export type RecipesContextType = {
+  productsInfo: [];
+  handleSetProductsInfo: (produtcs: []) => void;
+};
+
 export type FetchDrinksContextType = {
-  drinksState: [];
-  handleSetDrinksState: (drinks: []) => void;
+  drinksState: {
+    drinksStateName : [],
+    drinksByFirstLetter : [],
+    drinksByIngredient : [],
+  };
+  handleSetDrinksState: {
+    drinksStateName : (drinks: []) => void,
+    drinksByFirstLetter : (drinks: []) => void,
+    drinksByIngredient : (drinks: []) => void,
+  }
 };
 
 export const AuthContext = createContext({} as AuthContextType);
+
+export const RecipesContext = createContext({} as RecipesContextType);
 
 export const FetchMealsContext = createContext({} as FetchMealsContextType);
 

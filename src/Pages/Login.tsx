@@ -17,6 +17,11 @@ export function Login() {
     handleSetEmailState(email);
     navigate('/meals');
   };
+
+  const handleTeste = () => {
+    console.log('teste');
+  };
+
   return (
     <label>
       Email:
@@ -39,6 +44,7 @@ export function Login() {
       >
         Enter
       </button>
+      <button onClick={ handleTeste }>Teste</button>
       <div>
         { meals && meals.map((meal: any) => (
           <div key={ meal.idMeal }>

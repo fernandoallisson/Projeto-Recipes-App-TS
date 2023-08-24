@@ -1,37 +1,56 @@
 import { useEffect, useState } from 'react';
 import { getSearchByFirstLetter,
-  getSearchByIngredient, getSearchByName } from '../Services';
+  getSearchByIngredient } from '../Services';
 
   type ProductType = {
-    meals: any,
+    meals: [{
+      idMeal: string;
+      strArea: string;
+    }];
   };
 
 export function SearchBar() {
   const [input, setInput] = useState('');
   const [filter, setFilter] = useState('name');
-  const [productInfo, setProductInfo] = useState<ProductType[]>([]);
+  const [productInfoByName, setProductInfo] = useState<ProductType[]>([]);
 
-  // acredito que nao vai precisar disso aqui!!
+  const fetchProductInfoByName = async () => {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`,
+    );
+    const data = await response.json();
+    return data;
+  };
 
-  // useEffect(() => {
-  //   const fetchProductInfo = async () => {
-  //     const productInfoApi = await getSearchByName(input);
-  //     setProductInfo(productInfoApi);
-  //   };
-  //   fetchProductInfo();
-  // }, [input]);
+  const fetchProductInfoByIngredient = async () => {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?i=${input}`,
+    );
+    const data = await response.json();
+    setProductInfo(data);
+    return data;
+  };
+
+  const fetchProductInfoByFL = async () => {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`,
+    );
+    const data = await response.json();
+    setProductInfo(data);
+    return data;
+  };
 
   const handleFetchApi = async () => {
     switch (filter) {
       case 'name':
+        setProductInfo(await fetchProductInfoByName());
         break;
-
       case 'ingredient':
-        getSearchByIngredient(input);
+        setProductInfo(await fetchProductInfoByIngredient());
         break;
       case 'firstLetter':
         if (input.length === 1) {
-          getSearchByFirstLetter(input);
+          setProductInfo(await fetchProductInfoByFL());
         } else {
           window.alert('Your search must have only 1 (one) character');
         }
@@ -42,6 +61,8 @@ export function SearchBar() {
   };
   const handleTeste = () => {
     console.log('Teste');
+    // const { idMeal, strArea } = productInfoByName[0];
+    console.log(productInfoByName);
   };
   return (
     <div>

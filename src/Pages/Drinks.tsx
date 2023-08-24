@@ -1,9 +1,9 @@
 import { Header } from '../Components/Header/Header';
 
-export function Meals() {
+export function Drinks() {
   return (
     <div>
-      <Header title="Meals" />
+      <Header title="Drinks" />
     </div>
   );
 }

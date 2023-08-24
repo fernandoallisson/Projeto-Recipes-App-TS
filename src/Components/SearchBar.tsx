@@ -1,16 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSearchByFirstLetter,
   getSearchByIngredient, getSearchByName } from '../Services';
 
+  type ProductType = {
+    id: string,
+  };
+
 export function SearchBar() {
   const [input, setInput] = useState('');
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState('name');
+  const [productInfo, setProductInfo] = useState<ProductType[]>([]);
+
+  useEffect(() => {
+    const fetchProductInfo = async () => {
+      const productInfoApi = await getSearchByName(input);
+      setProductInfo(productInfoApi);
+    };
+    fetchProductInfo();
+  }, [input]);
 
   const handleFetchApi = async () => {
     switch (filter) {
       case 'name':
-        getSearchByName(input);
+        productInfo.map((product: ProductType) => product.id);
+        console.log(productInfo);
         break;
+
       case 'ingredient':
         getSearchByIngredient(input);
         break;
@@ -70,6 +85,12 @@ export function SearchBar() {
       >
         Search
       </button>
+      {productInfo.map((product: ProductType) => (
+        <div key={ product.id }>
+          <h1 data-testid="recipe-title">{product.id}</h1>
+        </div>
+      ))}
+
     </div>
   );
 }

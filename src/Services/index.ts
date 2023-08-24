@@ -1,4 +1,3 @@
-// Chamadas à API's
 // Chamada à API do search por Name
 
 export const getSearchByName = async (input: string) => {

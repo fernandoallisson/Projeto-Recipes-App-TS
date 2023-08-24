@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../Context';
+import { AuthContext, FetchMealsContext } from '../Context';
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -9,13 +9,14 @@ export function Login() {
   const navigate = useNavigate();
 
   const { handleSetEmailState } = useContext(AuthContext);
+  const { mealsState } = useContext(FetchMealsContext);
+  const { meals } = mealsState;
 
   const handleSubmit = () => {
     localStorage.setItem('user', JSON.stringify({ email }));
     handleSetEmailState(email);
     navigate('/meals');
   };
-
   return (
     <label>
       Email:
@@ -38,6 +39,15 @@ export function Login() {
       >
         Enter
       </button>
+      <div>
+        { meals && meals.map((meal: any) => (
+          <div key={ meal.idMeal }>
+            <p data-testid={ `${meal.strMeal}-card-name` }>{ meal.strMeal }</p>
+          </div>
+        ))}
+        {/* exemplo de como usar o context do meals OBS: replicar no drinks */}
+        ;
+      </div>
     </label>
   );
 }

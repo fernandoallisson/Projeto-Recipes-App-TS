@@ -8,11 +8,17 @@ export type AuthContextType = {
 };
 
 export type FetchMealsContextType = {
-  meals: any;
+  mealsState: { meals : [] };
+  handleSetMealsState: (meals: []) => void;
+};
+
+export type FetchDrinksContextType = {
+  drinksState: [];
+  handleSetDrinksState: (drinks: []) => void;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
 
-export const FetchMealsContext = createContext({} as any);
+export const FetchMealsContext = createContext({} as FetchMealsContextType);
 
-export const FetchDrinksContext = createContext({} as any);
+export const FetchDrinksContext = createContext({} as FetchDrinksContextType);

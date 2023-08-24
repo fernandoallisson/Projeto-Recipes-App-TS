@@ -1,10 +1,10 @@
 import { Footer } from '../Components/Footer';
 import { Header } from '../Components/Header/Header';
 
-export function Meals() {
+export function Profile() {
   return (
     <div>
-      <Header title="Meals" />
+      <Header title="Profile" />
       <footer>{ Footer() }</footer>
     </div>
   );

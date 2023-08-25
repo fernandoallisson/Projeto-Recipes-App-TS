@@ -1,10 +1,12 @@
-import { SearchBar } from '../Components/SearchBar';
+import { Footer } from '../Components/Footer';
+import { Header } from '../Components/Header';
 
 export function Drinks() {
   return (
     <div>
       <h1>Bebidas</h1>
-      <SearchBar />
+      <Header title="Drinks" />
+      <Footer />
     </div>
   );
 }

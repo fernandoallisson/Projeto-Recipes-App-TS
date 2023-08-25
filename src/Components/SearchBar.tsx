@@ -78,7 +78,7 @@ export function SearchBar() {
       }
     }
   };
-  const slatest = Object.keys(productsInfo)[0];
+  // const slatest = Object.keys(productsInfo)[0];
   // const handleTeste = () => {
   //   if (Object.keys(productsInfo)[0] === 'drinks') {
   //     console.log(drinks[0].idDrink);

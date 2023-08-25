@@ -48,6 +48,7 @@ describe('testando a aplicação', () => {
     fireEvent.click(searchButton);
     const input = screen.getByTestId('search-input');
     expect(input).toBeInTheDocument();
+    // expect(input).toBeVisible();
   });
   test('verifica se não existe o botão de search n página de Profile', () => {
     render(

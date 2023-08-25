@@ -85,7 +85,6 @@ export function SearchBar() {
           console.log('Please, select an option');
       }
     }
-
     if (location.pathname === '/drinks') {
       switch (filter) {
         case 'Dname':
@@ -147,7 +146,6 @@ export function SearchBar() {
           onChange={ handleChangeRadios }
         />
       </label>
-
       <button
         data-testid="exec-search-btn"
         onClick={ handleSearch }

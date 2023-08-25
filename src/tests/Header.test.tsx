@@ -1,20 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
 import { Header } from '../Components/Header';
-import { Meals } from '../Pages/Meals';
-import { Profile } from '../Pages/Profile';
+import App from '../App';
 
 describe('testando a aplicação', () => {
   test('Renderiza o título da aplicação', () => {
     render(
-      <Router>
-        <Meals />
-      </Router>,
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
     );
     const titulo = screen.getByRole('heading', { name: /recipe app/i });
     expect(titulo).toBeInTheDocument();
   });
-
   test('Renderiza links de navegação', () => {
     render(
       <Router>
@@ -24,7 +22,6 @@ describe('testando a aplicação', () => {
     const links = screen.getAllByRole('link');
     expect(links.length).toBe(1);
   });
-
   test('Verifica se os links têm os atributos corretos', () => {
     render(
       <Router>
@@ -40,9 +37,9 @@ describe('testando a aplicação', () => {
   });
   test('verifica o click no botão de search', () => {
     render(
-      <Router>
-        <Meals />
-      </Router>,
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
     );
     const searchButton = screen.getByTestId('toggle-search-button');
     fireEvent.click(searchButton);
@@ -52,9 +49,9 @@ describe('testando a aplicação', () => {
   });
   test('verifica se não existe o botão de search n página de Profile', () => {
     render(
-      <Router>
-        <Profile />
-      </Router>,
+      <MemoryRouter initialEntries={ ['/profile'] }>
+        <App />
+      </MemoryRouter>,
     );
     const input = screen.queryByTestId('search-input');
     expect(input).not.toBeInTheDocument();

@@ -69,7 +69,7 @@ export function SearchBar() {
   return (
     <div>
       <button onClick={ handleTeste }>Teste</button>
-      <label data-testid="search-top-btn">
+      <label>
         <input
           type="text"
           value={ input }

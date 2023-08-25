@@ -19,8 +19,8 @@ function App() {
           <Route path="/" element={ <Login /> } />
           <Route path="/meals" element={ <Meals /> } />
           <Route path="/drinks" element={ <Drinks /> } />
-          <Route path="/meals/:id-da-receita" element={ <MealsDetail /> } />
-          <Route path="/drinks/:id-da-receita" element={ <DrinksDetail /> } />
+          <Route path="/meals/:idMeals" element={ <MealsDetail /> } />
+          <Route path="/drinks/:idDrinks" element={ <DrinksDetail /> } />
           <Route path="/profile" element={ <Profile /> } />
           <Route path="/done-recipes" element={ <DoneRecipes /> } />
           <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />

@@ -1,18 +1,39 @@
-import { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { getSearchDrinksByFirstLetter,
+import { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { RecipesContext } from '../Context';
+import {
+  getSearchDrinksByFirstLetter,
   getSearchDrinksByIngredient,
   getSearchDrinksByName,
   getSearchMealsByFirstLetter,
   getSearchMealsByIngredient,
   getSearchMealsByName } from '../Services';
-import { RecipesContext } from '../Context';
 
 export function SearchBar() {
   const [input, setInput] = useState(''); // input do usuário
   const [filter, setFilter] = useState(''); // filtro selecionado pelo usuário
-  const location = useLocation();
+
   const { setHandleProductsInfo, productsInfo } = useContext(RecipesContext);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const noProducts = () => {
+    const string = Object.keys(productsInfo)[0];
+    if (string === 'meals') {
+      if (productsInfo.meals && productsInfo.meals.length === 0) {
+        setHandleProductsInfo({ meals: [] });
+        return window.alert("Sorry, we haven't found any recipes for these filters.");
+      }
+    } else if (string === 'drinks') {
+      if (productsInfo.drinks && productsInfo.drinks.length === 0) {
+        setHandleProductsInfo({ meals: [] });
+        return window.alert("Sorry, we haven't found any recipes for these filters.");
+      }
+    } else {
+      return null;
+    }
+  };
 
   const handleChangeRadios = (e: any) => {
     if (location.pathname === '/meals') {
@@ -22,26 +43,33 @@ export function SearchBar() {
     }
   };
 
-  const oneProduct = async () => {
+  const oneProduct = () => {
     const string = Object.keys(productsInfo)[0];
     if (string === 'meals') {
-      if (productsInfo.meals.length === 1) {
-        return console.log(await productsInfo.meals[0].idMeal);
+      if (productsInfo.meals && productsInfo.meals.length === 1) {
+        const idMeals = productsInfo.meals[0].idMeal;
+        navigate(idMeals);
       }
     } else if (string === 'drinks') {
-      if (productsInfo.drinks.length === 1) {
-        return console.log(await productsInfo.drinks[0].idDrink);
+      if (productsInfo.drinks && productsInfo.drinks.length === 1) {
+        const idDrinks = productsInfo.drinks[0].idDrink;
+        navigate(idDrinks);
       }
     } else {
       return null;
     }
   };
+
+  useEffect(() => {
+    oneProduct();
+  }, [productsInfo]);
+
   const handleSearch = async () => {
+    noProducts();
     if (location.pathname === '/meals') {
       switch (filter) {
         case 'Mname':
           setHandleProductsInfo(await getSearchMealsByName(input));
-          oneProduct();
           break;
         case 'Mingredient':
           setHandleProductsInfo(await getSearchMealsByIngredient(input));
@@ -57,11 +85,11 @@ export function SearchBar() {
           console.log('Please, select an option');
       }
     }
+
     if (location.pathname === '/drinks') {
       switch (filter) {
         case 'Dname':
           setHandleProductsInfo(await getSearchDrinksByName(input));
-          oneProduct();
           break;
         case 'Dingredient':
           setHandleProductsInfo(await getSearchDrinksByIngredient(input));
@@ -78,20 +106,9 @@ export function SearchBar() {
       }
     }
   };
-  // const slatest = Object.keys(productsInfo)[0];
-  // const handleTeste = () => {
-  //   if (Object.keys(productsInfo)[0] === 'drinks') {
-  //     console.log(drinks[0].idDrink);
-  //   } else if (Object.keys(productsInfo)[0] === 'meals') {
-  //     console.log(productsInfo.meals[0].idMeal);
-  //   }
-  // };
-  const handleTeste = () => {
-    console.log(productsInfo.meals.length);
-  };
+
   return (
     <div>
-      <button onClick={ handleTeste }>Teste</button>
       <label>
         <input
           type="text"

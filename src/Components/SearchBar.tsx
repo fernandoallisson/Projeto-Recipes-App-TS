@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getSearchDrinksByFirstLetter,
   getSearchDrinksByIngredient,
@@ -6,13 +6,13 @@ import { getSearchDrinksByFirstLetter,
   getSearchMealsByFirstLetter,
   getSearchMealsByIngredient,
   getSearchMealsByName } from '../Services';
+import { RecipesContext } from '../Context';
 
 export function SearchBar() {
   const [input, setInput] = useState(''); // input do usuário
   const [filter, setFilter] = useState(''); // filtro selecionado pelo usuário
-  const [productInfo, setProductInfo] = useState([]); // informações do produto que posteriormente serão armaenadas no contexto
-
   const location = useLocation();
+  const { setHanleProductsInfo, productsInfo } = useContext(RecipesContext);
 
   const handleChangeRadios = (e: any) => {
     if (location.pathname === '/meals') {
@@ -22,18 +22,18 @@ export function SearchBar() {
     }
   };
 
-  const Condicao = async () => {
+  const handleSearch = async () => {
     if (location.pathname === '/meals') {
       switch (filter) {
         case 'Mname':
-          setProductInfo(await getSearchMealsByName(input));
+          setHanleProductsInfo(await getSearchMealsByName(input));
           break;
         case 'Mingredient':
-          setProductInfo(await getSearchMealsByIngredient(input));
+          setHanleProductsInfo(await getSearchMealsByIngredient(input));
           break;
         case 'MfirstLetter':
           if (input.length === 1) {
-            setProductInfo(await getSearchMealsByFirstLetter(input));
+            setHanleProductsInfo(await getSearchMealsByFirstLetter(input));
           } else {
             window.alert('Your search must have only 1 (one) character');
           }
@@ -45,14 +45,14 @@ export function SearchBar() {
     if (location.pathname === '/drinks') {
       switch (filter) {
         case 'Dname':
-          setProductInfo(await getSearchDrinksByName(input));
+          setHanleProductsInfo(await getSearchDrinksByName(input));
           break;
         case 'Dingredient':
-          setProductInfo(await getSearchDrinksByIngredient(input));
+          setHanleProductsInfo(await getSearchDrinksByIngredient(input));
           break;
         case 'DfirstLetter':
           if (input.length === 1) {
-            setProductInfo(await getSearchDrinksByFirstLetter(input));
+            setHanleProductsInfo(await getSearchDrinksByFirstLetter(input));
           } else {
             window.alert('Your search must have only 1 (one) character');
           }
@@ -63,9 +63,8 @@ export function SearchBar() {
     }
   };
 
-  const handleTeste = async () => {
-    console.log(filter);
-    console.log(productInfo);
+  const handleTeste = () => {
+    console.log(productsInfo);
   };
   return (
     <div>
@@ -77,6 +76,8 @@ export function SearchBar() {
           data-testid="search-input"
           onChange={ (e) => setInput(e.target.value) }
         />
+      </label>
+      <label htmlFor="ingredient">
         Ingredient
         <input
           name="filter"
@@ -85,6 +86,8 @@ export function SearchBar() {
           data-testid="ingredient-search-radio"
           onChange={ handleChangeRadios }
         />
+      </label>
+      <label htmlFor="name">
         Name
         <input
           name="filter"
@@ -93,6 +96,8 @@ export function SearchBar() {
           data-testid="name-search-radio"
           onChange={ handleChangeRadios }
         />
+      </label>
+      <label htmlFor="firstLetter">
         First letter
         <input
           name="filter"
@@ -102,9 +107,10 @@ export function SearchBar() {
           onChange={ handleChangeRadios }
         />
       </label>
+
       <button
         data-testid="exec-search-btn"
-        onClick={ Condicao }
+        onClick={ handleSearch }
       >
         Search
       </button>

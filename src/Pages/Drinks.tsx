@@ -1,9 +1,9 @@
 import { SearchBar } from '../Components/SearchBar';
 
-export function Meals() {
+export function Drinks() {
   return (
     <div>
-      <h1>Comidas</h1>
+      <h1>Bebidas</h1>
       <SearchBar />
     </div>
   );

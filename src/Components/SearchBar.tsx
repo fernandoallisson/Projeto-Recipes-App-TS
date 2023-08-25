@@ -12,7 +12,7 @@ export function SearchBar() {
   const [input, setInput] = useState(''); // input do usuário
   const [filter, setFilter] = useState(''); // filtro selecionado pelo usuário
   const location = useLocation();
-  const { setHanleProductsInfo, productsInfo } = useContext(RecipesContext);
+  const { setHandleProductsInfo, productsInfo } = useContext(RecipesContext);
 
   const handleChangeRadios = (e: any) => {
     if (location.pathname === '/meals') {
@@ -22,18 +22,33 @@ export function SearchBar() {
     }
   };
 
+  const oneProduct = async () => {
+    const string = Object.keys(productsInfo)[0];
+    if (string === 'meals') {
+      if (productsInfo.meals.length === 1) {
+        return console.log(await productsInfo.meals[0].idMeal);
+      }
+    } else if (string === 'drinks') {
+      if (productsInfo.drinks.length === 1) {
+        return console.log(await productsInfo.drinks[0].idDrink);
+      }
+    } else {
+      return null;
+    }
+  };
   const handleSearch = async () => {
     if (location.pathname === '/meals') {
       switch (filter) {
         case 'Mname':
-          setHanleProductsInfo(await getSearchMealsByName(input));
+          setHandleProductsInfo(await getSearchMealsByName(input));
+          oneProduct();
           break;
         case 'Mingredient':
-          setHanleProductsInfo(await getSearchMealsByIngredient(input));
+          setHandleProductsInfo(await getSearchMealsByIngredient(input));
           break;
         case 'MfirstLetter':
           if (input.length === 1) {
-            setHanleProductsInfo(await getSearchMealsByFirstLetter(input));
+            setHandleProductsInfo(await getSearchMealsByFirstLetter(input));
           } else {
             window.alert('Your search must have only 1 (one) character');
           }
@@ -45,14 +60,15 @@ export function SearchBar() {
     if (location.pathname === '/drinks') {
       switch (filter) {
         case 'Dname':
-          setHanleProductsInfo(await getSearchDrinksByName(input));
+          setHandleProductsInfo(await getSearchDrinksByName(input));
+          oneProduct();
           break;
         case 'Dingredient':
-          setHanleProductsInfo(await getSearchDrinksByIngredient(input));
+          setHandleProductsInfo(await getSearchDrinksByIngredient(input));
           break;
         case 'DfirstLetter':
           if (input.length === 1) {
-            setHanleProductsInfo(await getSearchDrinksByFirstLetter(input));
+            setHandleProductsInfo(await getSearchDrinksByFirstLetter(input));
           } else {
             window.alert('Your search must have only 1 (one) character');
           }
@@ -62,9 +78,16 @@ export function SearchBar() {
       }
     }
   };
-
+  const slatest = Object.keys(productsInfo)[0];
+  // const handleTeste = () => {
+  //   if (Object.keys(productsInfo)[0] === 'drinks') {
+  //     console.log(drinks[0].idDrink);
+  //   } else if (Object.keys(productsInfo)[0] === 'meals') {
+  //     console.log(productsInfo.meals[0].idMeal);
+  //   }
+  // };
   const handleTeste = () => {
-    console.log(productsInfo);
+    console.log(productsInfo.meals.length);
   };
   return (
     <div>

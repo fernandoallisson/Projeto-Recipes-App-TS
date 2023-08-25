@@ -6,8 +6,10 @@ export type AuthContextType = {
 };
 
 export type RecipesContextType = {
-  productsInfo: [];
-  setHanleProductsInfo: (produtcs: []) => void;
+  productsInfo: {
+    meals: [];
+  } | any;
+  setHandleProductsInfo: (produtcs: { meals: [] }) => void;
 };
 
 export const AuthContext = createContext({} as AuthContextType);

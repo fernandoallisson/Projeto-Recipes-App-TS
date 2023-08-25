@@ -4,8 +4,8 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import Logo from '../images/Logo.svg';
 import mealIcon from '../images/mealIcon.svg';
-import drinkIcon from '../images/drinkIcon.svg';
 import { SearchBar } from './SearchBar';
+import drinkIcon from '../images/drinkIcon.svg';
 
 export type HeaderProps = {
   title: string;

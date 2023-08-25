@@ -6,14 +6,14 @@ type RecipesProviderProps = {
 };
 
 export function RecipesProvider({ children }: RecipesProviderProps) {
-  const [productsInfo, setProductInfo] = useState<[]>([]);
+  const [productsInfo, setProductInfo] = useState<{ meals: []; }>({ meals: [] });
 
-  const setHanleProductsInfo = (recipes: []) => {
+  const setHandleProductsInfo = (recipes: { meals: []; }) => {
     setProductInfo(recipes);
   };
 
   return (
-    <RecipesContext.Provider value={ { productsInfo, setHanleProductsInfo } }>
+    <RecipesContext.Provider value={ { productsInfo, setHandleProductsInfo } }>
       <div>
         { children }
       </div>

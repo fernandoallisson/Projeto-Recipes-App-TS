@@ -80,7 +80,7 @@ export function SearchBar() {
           }
           break;
         default:
-          console.log('Please, select an option');
+          window.alert('Please, select an option');
       }
     }
     if (location.pathname === '/drinks') {
@@ -99,7 +99,7 @@ export function SearchBar() {
           }
           break;
         default:
-          console.log('Please, select an option');
+          window.alert('Please, select an option');
       }
     }
   };

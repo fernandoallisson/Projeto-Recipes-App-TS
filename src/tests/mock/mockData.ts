@@ -32,5 +32,24 @@ export const mockData = {
       strDrink: 'Tommy\'s Margarita',
       strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/loezxn1504373874.jpg',
     },
+    {
+      idDrink: '16158',
+      strDrink: 'Whitecap Margarita',
+      strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/srpxxp1441209622.jpg',
+    },
+  ],
+  sushi: [
+    {
+      idMeal: '52795',
+      strMeal: 'Sushi',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg',
+    },
+  ],
+  vesper: [
+    {
+      idDrink: '17216',
+      strDrink: 'Vesper',
+      strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/loezxn1504373874.jpg',
+    },
   ],
 };

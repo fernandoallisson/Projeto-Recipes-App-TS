@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
-import profileIcon from '../../images/profileIcon.svg';
-import searchIcon from '../../images/searchIcon.svg';
-import Logo from '../../images/Logo.svg';
-import mealIcon from '../../images/mealIcon.svg';
-import drinkIcon from '../../images/drinkIcon.svg';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
+import Logo from '../images/Logo.svg';
+import mealIcon from '../images/mealIcon.svg';
+import { SearchBar } from './SearchBar';
+import drinkIcon from '../images/drinkIcon.svg';
 
 export type HeaderProps = {
   title: string;
@@ -53,11 +54,7 @@ export function Header({ title }: HeaderProps) {
         <h1 data-testid="page-title">{title}</h1>
       </div>
       {isSearchVisible && (
-        <input
-          type="text"
-          data-testid="search-input"
-          placeholder="Pesquisar..."
-        />
+        <SearchBar />
       )}
     </header>
   );

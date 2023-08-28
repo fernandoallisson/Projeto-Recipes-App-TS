@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Context';
 import { Footer } from '../Components/Footer';
-import { Header } from '../Components/Header/Header';
+import { Header } from '../Components/Header';
 
 export function Profile() {
   const { emailState } = useContext(AuthContext);

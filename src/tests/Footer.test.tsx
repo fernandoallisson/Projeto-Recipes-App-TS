@@ -1,30 +1,34 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Meals } from '../Pages/Meals';
+import App from '../App';
 
 describe('Footer Component', () => {
   it('Deve navegar para /drinks quando o botão drinks for clicado', () => {
     render(
-      <Router>
-        <Meals />
-      </Router>,
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
     );
 
     const drinksButton = screen.getByTestId('drinks-bottom-btn');
     fireEvent.click(drinksButton);
-    expect(window.location.pathname).toBe('/drinks');
+    const drinks = screen.getByText(/Drinks/i);
+    expect(drinks).toBeInTheDocument();
   });
 
   it('Deve navegar para /meals quando o botão meals for clicado', () => {
     render(
-      <Router>
-        <Meals />
-      </Router>,
+      <MemoryRouter initialEntries={ ['/drinks'] }>
+        <App />
+      </MemoryRouter>,
     );
 
     const mealsButton = screen.getByTestId('meals-bottom-btn');
     fireEvent.click(mealsButton);
-    expect(window.location.pathname).toBe('/meals');
+
+    const meals = screen.getByText(/Meals/i);
+    expect(meals).toBeInTheDocument();
   });
 });

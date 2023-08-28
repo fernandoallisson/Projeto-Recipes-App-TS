@@ -1,11 +1,13 @@
 import { Footer } from '../Components/Footer';
-import { Header } from '../Components/Header/Header';
+import { Header } from '../Components/Header';
+import { Cards } from '../Components/Cards';
 
 export function Meals() {
   return (
     <div>
       <Header title="Meals" />
-      <footer>{ Footer() }</footer>
+      <Cards />
+      <Footer />
     </div>
   );
 }

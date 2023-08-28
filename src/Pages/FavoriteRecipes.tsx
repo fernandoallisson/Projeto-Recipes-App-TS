@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { AuthContext } from '../Context/index';
-import { Header } from '../Components/Header/Header';
+import { Header } from '../Components/Header';
 
 export function FavoriteRecipes() {
   const { emailState } = useContext(AuthContext);

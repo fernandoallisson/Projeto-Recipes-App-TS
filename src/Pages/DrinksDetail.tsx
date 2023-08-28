@@ -1,12 +1,7 @@
-import { useContext } from 'react';
-import { AuthContext } from '../Context/index';
-
 export function DrinksDetail() {
-  const { emailState } = useContext(AuthContext);
-
   return (
     <div>
-      <h1>{ emailState }</h1>
+      <h1>Drink Details</h1>
     </div>
   );
 }

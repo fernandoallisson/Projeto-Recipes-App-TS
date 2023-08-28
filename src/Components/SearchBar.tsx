@@ -21,13 +21,11 @@ export function SearchBar() {
   const noProducts = () => {
     const string = Object.keys(productsInfo)[0];
     if (string === 'meals') {
-      if (productsInfo.meals && productsInfo.meals.length === 0) {
-        setHandleProductsInfo({ meals: [] });
+      if (productsInfo.meals === null) {
         return window.alert("Sorry, we haven't found any recipes for these filters.");
       }
     } else if (string === 'drinks') {
-      if (productsInfo.drinks && productsInfo.drinks.length === 0) {
-        setHandleProductsInfo({ meals: [] });
+      if (productsInfo.drinks === null) {
         return window.alert("Sorry, we haven't found any recipes for these filters.");
       }
     } else {
@@ -62,10 +60,10 @@ export function SearchBar() {
 
   useEffect(() => {
     oneProduct();
+    noProducts();
   }, [productsInfo]);
 
   const handleSearch = async () => {
-    noProducts();
     if (location.pathname === '/meals') {
       switch (filter) {
         case 'Mname':

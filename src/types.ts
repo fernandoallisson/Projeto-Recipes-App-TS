@@ -99,9 +99,9 @@ export type Drink = {
 };
 
 export type MealData = {
-  meals: MealRecipe[];
+  meals: Meal[];
 };
 
 export type DrinkData = {
-  drinks: DrinkRecipe[];
+  drinks: Drink[];
 };

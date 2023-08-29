@@ -3,18 +3,20 @@ import { useParams } from 'react-router-dom';
 import { getRecipesById } from '../Services/index';
 import { Drink, Meal } from '../types';
 
-type RecipeDetails = {
-  meals: Meal;
-  drinks: Drink;
+type RecipeDetailsType = {
+  meals: Meal[];
+  drinks: Drink[];
 };
 
 export function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
-  const [recipe, setRecipe] = useState<RecipeDetails>();
+  const [recipe, setRecipe] = useState<RecipeDetailsType>(
+    {} as RecipeDetailsType,
+  );
 
   const location = window.location.pathname;
 
-  const fetchData = async () => {
+  const fetchDataRecipe = async () => {
     if (location.includes('meals')) {
       const data = await getRecipesById(`${id}`, 'meals');
       setRecipe(data);
@@ -27,109 +29,99 @@ export function RecipeDetails() {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchDataRecipe();
   }, [id]);
 
   const handleTeste = () => {
-    console.log(recipe?.meals);
+    console.log({ recipe });
   };
 
   return (
     <div>
       <button onClick={ handleTeste }>Teste</button>
-      <div id="titleRecipeType">
-        {
-          location.includes('meals') ? (
-            <div>
-              <h1>Meals Details</h1>
+      {recipe.meals && (
+        <div>
+          { recipe.meals.map((element: Meal) => (
+            <div key={ element.idMeal }>
+              <h1 data-testid="recipe-title">{ element.strMeal }</h1>
+              <h3 data-testid="recipe-category">{ element.strCategory }</h3>
+              <img
+                src={ element.strMealThumb }
+                alt={ element.strMeal }
+                data-testid="recipe-photo"
+              />
+              <h3>Ingredients</h3>
+              <ul>
+                { Object.keys(element).map((key, index) => {
+                  if (key.includes('strIngredient') && element[key]) {
+                    return (
+                      <li
+                        key={ key }
+                        data-testid={ `${index -= 9}-ingredient-name-and-measure` }
+                      >
+                        { element[key] }
+                        {' '}
+                        -
+                        {' '}
+                        { element[`strMeasure${key.slice(13)}`] }
+                      </li>
+                    );
+                  }
+                  return null;
+                }) }
+              </ul>
+              <h3>Instructions</h3>
+              <p data-testid="instructions">{ element.strInstructions }</p>
+              <iframe
+                data-testid="video"
+                title={ element.strMeal }
+                src={ `https://www.youtube.com/embed/${element.strYoutube.split('v=')[1]}` }
+                width="320"
+                height="240"
+                allowFullScreen
+              />
             </div>
-          ) : (
-            <div>
-              <h1>Drinks Details</h1>
+          ))}
+        </div>
+      )}
+      {recipe.drinks && (
+        <div>
+          { recipe.drinks.map((element: Drink) => (
+            <div key={ element.idDrink }>
+              <h1 data-testid="recipe-title">{ element.strDrink }</h1>
+              <h3 data-testid="recipe-category">{ element.strCategory }</h3>
+              <h4>{ element.strAlcoholic }</h4>
+              <img
+                data-testid="recipe-photo"
+                src={ element.strDrinkThumb }
+                alt={ element.strDrink }
+              />
+              <h3>Ingredients</h3>
+              <ul>
+                { Object.keys(element).map((key, index) => { // index = 17;
+                  if (key.includes('strIngredient') && element[key]) {
+                    return (
+                      <li
+                        key={ key }
+                        data-testid={ `${index -= 17}-ingredient-name-and-measure` }
+                      >
+                        { element[key] }
+                        {' '}
+                        -
+                        {' '}
+                        { element[`strMeasure${key.slice(13)}`] }
+                      </li>
+                    );
+                  }
+                  return null;
+                }) }
+              </ul>
+              <h3>Instructions</h3>
+              <p data-testid="instructions">{ element.strInstructions }</p>
             </div>
-          )
-        }
-      </div>
-      <div>
-        {recipe && (
-          <div>
-            <img
-              src={ recipe.meals.strMealThumb || recipe.drinks.strDrinkThumb }
-              alt={ recipe.meals.strMeal || recipe.drinks.strDrink }
-              data-testid="recipe-photo"
-            />
-            <h1 data-testid="recipe-title">
-              {
-              recipe.meals.strMeal
-              || recipe.drinks.strDrink
-              }
-            </h1>
-            <h2 data-testid="recipe-category">
-              { recipe.meals.strCategory
-              || recipe.drinks.strCategory}
-            </h2>
-            <h3>Ingredients</h3>
-            {Object.keys(recipe).map((key) => {
-              if (key.includes('Ingredient') && recipe[key]) {
-                return (
-                  <p
-                    key={ key }
-                    data-testid={
-                      `${parseInt(key.split(' ')[1], 10) - 1}-ingredient-name-and-measure`
-                    }
-                  >
-                    {`${recipe[key]} - ${recipe[`strMeasure${key.split(' ')[1]}`]}`}
-                  </p>
-                );
-              }
-              return null;
-            })}
-            <h3>Instructions</h3>
-            <p data-testid="instructions">
-              {
-            recipe.meals.strInstructions
-            || recipe.drinks.strInstructions
-}
-            </p>
-            {/* {location.includes('meals') && (
-              <div>
-                <h3>Video</h3>
-                <iframe
-                  title="video"
-                  data-testid="video"
-                  width="320"
-                  height="240"
-                  src={ recipe.strYoutube.replace('watch?v=', 'embed/') }
-                />
-              </div>
-            )} */}
-            <h3>Recomendations</h3>
-            {/* <div>
-              <div>
-                {recipe.strDrink ? (
-                  <div>
-                    <img
-                      src={ recipe.strDrinkThumb }
-                      alt={ recipe.strDrink }
-                      data-testid="recipe-photo"
-                    />
-                    <h4 data-testid="recipe-title">{recipe.strDrink}</h4>
-                  </div>
-                ) : (
-                  <div>
-                    <img
-                      src={ recipe.strMealThumb }
-                      alt={ recipe.strMeal }
-                      data-testid="recipe-photo"
-                    />
-                    <h4 data-testid="recipe-title">{ recipe.strMeal }</h4>
-                  </div>
-                )}
-              </div> */}
-            {/* </div> */}
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

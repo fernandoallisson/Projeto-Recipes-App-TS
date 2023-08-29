@@ -57,3 +57,20 @@ export const getSearchDrinksByIngredient = async (ingrediente: string) => {
   const data = await response.json();
   return data;
 };
+
+// Chamada à API por ID da receita
+
+export const getRecipesById = async (id: string, type: string) => { // type = meals ou drinks
+  if (type === 'meals') {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+    );
+    const data = await response.json();
+    return data;
+  }
+  const response = await fetch(
+    `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
+  );
+  const data = await response.json();
+  return data;
+};

@@ -1,4 +1,4 @@
-export type MealRecipe = {
+export type Meal = {
   dateModified: string | null;
   idMeal: string;
   strArea: string;
@@ -44,7 +44,7 @@ export type MealRecipe = {
   strYoutube: string;
 };
 
-export type DrinkRecipe = {
+export type Drink = {
   dateModified: string;
   idDrink: string;
   strAlcoholic: string;

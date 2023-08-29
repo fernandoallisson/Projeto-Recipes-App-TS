@@ -28,6 +28,16 @@ export const getSearchMealsByIngredient = async (ingrediente: string) => {
   return data;
 };
 
+// Chamada à API de Categorias de Comidas
+
+export const getSearchMealsCategories = async () => {
+  const response = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
+  );
+  const data = await response.json();
+  return data;
+};
+
 // Chamada à API do search por Name do Drink
 
 export const getSearchDrinksByName = async (nome: string) => {
@@ -53,6 +63,16 @@ export const getSearchDrinksByFirstLetter = async (firstLetter: string) => {
 export const getSearchDrinksByIngredient = async (ingrediente: string) => {
   const response = await fetch(
     `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingrediente}`,
+  );
+  const data = await response.json();
+  return data;
+};
+
+// Chamada à API de Categorias de Bebidas
+
+export const getSearchDrinksCategories = async () => {
+  const response = await fetch(
+    'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list',
   );
   const data = await response.json();
   return data;

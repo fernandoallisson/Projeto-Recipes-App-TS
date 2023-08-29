@@ -1,31 +1,61 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getSearchDrinksByName, getSearchMealsByName } from '../Services';
+import {
+  getSearchDrinksByName,
+  getSearchDrinksCategories,
+  getSearchMealsByName,
+  getSearchMealsCategories,
+} from '../Services';
 
 export function Cards() {
   const [productsToShow, setProductsToShow] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const location = useLocation();
 
   useEffect(() => {
-    async function fetchProducts() {
-      const responseDrinks = await getSearchDrinksByName('');
-      const dataDrinks = await responseDrinks.drinks;
+    const fetchData = async () => {
+      try {
+        const responseDrinks = await getSearchDrinksByName('');
+        const dataDrinks = responseDrinks.drinks || [];
 
-      const responseMeals = await getSearchMealsByName('');
-      const dataMeals = await responseMeals.meals;
+        const responseMeals = await getSearchMealsByName('');
+        const dataMeals = responseMeals.meals || [];
 
-      const drinks = dataDrinks;
-      const meals = dataMeals;
+        const drinks = dataDrinks;
+        const meals = dataMeals;
 
-      if (location.pathname === '/drinks') setProductsToShow(drinks.slice(0, 12));
-      if (location.pathname === '/meals') setProductsToShow(meals.slice(0, 12));
-    }
+        if (location.pathname === '/drinks') setProductsToShow(drinks.slice(0, 12));
+        if (location.pathname === '/meals') setProductsToShow(meals.slice(0, 12));
 
-    fetchProducts();
+        const responseDrinksCategories = await getSearchDrinksCategories();
+        const dataDrinksCategories = responseDrinksCategories.drinks || [];
+
+        const responseMealsCategories = await getSearchMealsCategories();
+        const dataMealsCategories = responseMealsCategories.meals || [];
+
+        const drinksCategories = dataDrinksCategories;
+        const mealsCategories = dataMealsCategories;
+
+        if (location.pathname === '/drinks') setCategories(drinksCategories.slice(0, 5));
+        if (location.pathname === '/meals') setCategories(mealsCategories.slice(0, 5));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, [location.pathname]);
 
   return (
     <div>
+      {categories.map((categoryName: any) => (
+        <button
+          key={ categoryName.strCategory }
+          data-testid={ `${categoryName.strCategory}-category-filter` }
+        >
+          {categoryName.strCategory}
+        </button>
+      ))}
       {productsToShow.map((product: any, index: number) => (
         <div
           key={ product.idDrink || product.idMeal }

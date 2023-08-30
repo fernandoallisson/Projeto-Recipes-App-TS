@@ -74,3 +74,18 @@ export const getRecipesById = async (id: string, type: string) => { // type = me
   const data = await response.json();
   return data;
 };
+
+export const getRecomendations = async (type: string) => { // type = meals ou drinks
+  if (type === 'drinks') {
+    const response = await fetch(
+      'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+    );
+    const data = await response.json();
+    return data;
+  }
+  const response = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+  );
+  const data = await response.json();
+  return data;
+};

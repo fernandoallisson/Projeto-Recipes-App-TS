@@ -1,4 +1,4 @@
-export type MealRecipe = {
+export type Meal = {
   dateModified: string | null;
   idMeal: string;
   strArea: string;
@@ -44,7 +44,7 @@ export type MealRecipe = {
   strYoutube: string;
 };
 
-export type DrinkRecipe = {
+export type Drink = {
   dateModified: string;
   idDrink: string;
   strAlcoholic: string;
@@ -99,9 +99,9 @@ export type DrinkRecipe = {
 };
 
 export type MealData = {
-  meals: MealRecipe[];
+  meals: Meal[];
 };
 
 export type DrinkData = {
-  drinks: DrinkRecipe[];
+  drinks: Drink[];
 };

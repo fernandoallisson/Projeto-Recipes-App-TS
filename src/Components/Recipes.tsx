@@ -11,49 +11,54 @@ import {
 
 export function Cards() {
   const [productsToShow, setProductsToShow] = useState<string[]>([]);
-  const [productsFiltered, setProductsFiltered] = useState<string[]>([]); // [
   const [categories, setCategories] = useState<string[]>([]);
-  const [valueButton, setValueButton] = useState<string>('');
   const location = useLocation();
 
   const fetchProducts = async () => {
-    const responseDrinks = await getSearchDrinksByName('');
-    const drinks = responseDrinks.drinks || [];
+    if (location.pathname === '/drinks') {
+      const responseDrinks = await getSearchDrinksByName('');
+      const drinks = responseDrinks.drinks || [];
+      setProductsToShow(drinks.slice(0, 12));
+    }
 
-    const responseMeals = await getSearchMealsByName('');
-    const meals = responseMeals.meals || [];
-
-    if (location.pathname === '/drinks') setProductsToShow(drinks.slice(0, 12));
-    if (location.pathname === '/meals') setProductsToShow(meals.slice(0, 12));
+    if (location.pathname === '/meals') {
+      const responseMeals = await getSearchMealsByName('');
+      const meals = responseMeals.meals || [];
+      setProductsToShow(meals.slice(0, 12));
+    }
   };
 
   const fetchCategories = async () => {
-    const responseDrinks = await getSearchDrinksCategories();
-    const drinks = responseDrinks.drinks || [];
-
-    const responseMeals = await getSearchMealsCategories();
-    const meals = responseMeals.meals || [];
-
-    if (location.pathname === '/drinks') setCategories(drinks.slice(0, 5));
-    if (location.pathname === '/meals') setCategories(meals.slice(0, 5));
+    if (location.pathname === '/drinks') {
+      const responseDrinks = await getSearchDrinksCategories();
+      const drinks = responseDrinks.drinks || [];
+      setCategories(drinks.slice(0, 5));
+    }
+    if (location.pathname === '/meals') {
+      const responseMeals = await getSearchMealsCategories();
+      const meals = responseMeals.meals || [];
+      setCategories(meals.slice(0, 5));
+    }
   };
 
   const fetchProductsByCategory = async (category: string) => {
-    // const responseDrinks = await getSearchDrinksByCategory(category);
-    // const drinks = responseDrinks.drinks || [];
-
-    const responseMeals = await getSearchMealsByCategory(category);
-    const meals = responseMeals.meals || [];
-
-    if (location.pathname === '/drinks') setProductsFiltered(drinks.slice(0, 12));
-    if (location.pathname === '/meals') setProductsFiltered(meals.slice(0, 12));
+    if (location.pathname === '/drinks') {
+      const responseDrinks = await getSearchDrinksByCategory(category);
+      const drinks = responseDrinks.drinks || [];
+      setProductsToShow(drinks.slice(0, 12));
+    }
+    if (location.pathname === '/meals') {
+      const responseMeals = await getSearchMealsByCategory(category);
+      const meals = responseMeals.meals || [];
+      setProductsToShow(meals.slice(0, 12));
+    }
   };
 
   useEffect(() => {
     fetchProducts();
     fetchCategories();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, valueButton]);
+  }, [location.pathname]);
 
   return (
     <div>
@@ -68,11 +73,11 @@ export function Cards() {
       ))}
       <button
         data-testid="All-category-filter"
-        onClick={ () => { setValueButton(''); } }
+        onClick={ () => { fetchProducts(); } }
       >
         All
       </button>
-      {productsFiltered.map((product: any, index: number) => (
+      {productsToShow.map((product: any, index: number) => (
         <div
           key={ product.idDrink || product.idMeal }
           data-testid={ `${index}-recipe-card` }

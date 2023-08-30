@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   getSearchDrinksByCategory,
   getSearchDrinksByName,
@@ -12,6 +12,8 @@ import {
 export function Cards() {
   const [productsToShow, setProductsToShow] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [oltCategory, setOltCategory] = useState<string>('');
+  const navigate = useNavigate();
   const location = useLocation();
 
   const fetchProducts = async () => {
@@ -42,15 +44,28 @@ export function Cards() {
   };
 
   const fetchProductsByCategory = async (category: string) => {
-    if (location.pathname === '/drinks') {
-      const responseDrinks = await getSearchDrinksByCategory(category);
-      const drinks = responseDrinks.drinks || [];
-      setProductsToShow(drinks.slice(0, 12));
+    if (category === oltCategory) {
+      fetchProducts();
+      setOltCategory('');
+    } else if (category !== '') {
+      if (location.pathname === '/drinks') {
+        const responseDrinks = await getSearchDrinksByCategory(category);
+        const drinks = responseDrinks.drinks || [];
+        setProductsToShow(drinks.slice(0, 12));
+        setOltCategory(category);
+      }
+      if (location.pathname === '/meals') {
+        const responseMeals = await getSearchMealsByCategory(category);
+        const meals = responseMeals.meals || [];
+        setProductsToShow(meals.slice(0, 12));
+        setOltCategory(category);
+      }
     }
-    if (location.pathname === '/meals') {
-      const responseMeals = await getSearchMealsByCategory(category);
-      const meals = responseMeals.meals || [];
-      setProductsToShow(meals.slice(0, 12));
+  };
+
+  const handleClick = (id: string) => {
+    if (id) {
+      navigate(id);
     }
   };
 
@@ -81,8 +96,18 @@ export function Cards() {
         <div
           key={ product.idDrink || product.idMeal }
           data-testid={ `${index}-recipe-card` }
+          role="button"
+          tabIndex={ 0 }
+          onClick={ () => { handleClick(product.idDrink || product.idMeal); } }
+          onKeyDown={ (e) => {
+            if (e.key === 'Enter') {
+              handleClick(product.idDrink || product.idMeal);
+            }
+          } }
         >
-          <p data-testid={ `${index}-card-name` }>
+          <p
+            data-testid={ `${index}-card-name` }
+          >
             {product.strDrink || product.strMeal}
           </p>
           <img

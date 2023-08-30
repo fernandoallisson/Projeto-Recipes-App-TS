@@ -35,7 +35,7 @@ export function RecipeDetails() {
   const handleTeste = () => {
     console.log({ recipe });
   };
-
+  console.log({ recipe });
   return (
     <div>
       <button onClick={ handleTeste }>Teste</button>
@@ -49,6 +49,7 @@ export function RecipeDetails() {
                 src={ element.strMealThumb }
                 alt={ element.strMeal }
                 data-testid="recipe-photo"
+                style={ { width: '10px', height: '10px' } }
               />
               <h3>Ingredients</h3>
               <ul>
@@ -57,7 +58,7 @@ export function RecipeDetails() {
                     return (
                       <li
                         key={ key }
-                        data-testid={ `${index -= 9}-ingredient-name-and-measure` }
+                        data-testid={ `${index - 9}-ingredient-name-and-measure` }
                       >
                         { element[key] }
                         {' '}
@@ -89,12 +90,13 @@ export function RecipeDetails() {
           { recipe.drinks.map((element: Drink) => (
             <div key={ element.idDrink }>
               <h1 data-testid="recipe-title">{ element.strDrink }</h1>
-              <h3 data-testid="recipe-category">{ element.strCategory }</h3>
-              <h4>{ element.strAlcoholic }</h4>
+              {/* <h3 data-testid="recipe-category">{ element.strCategory }</h3> */}
+              <h3 data-testid="recipe-category">{ element.strAlcoholic }</h3>
               <img
                 data-testid="recipe-photo"
                 src={ element.strDrinkThumb }
                 alt={ element.strDrink }
+                style={ { width: '10px', height: '10px' } }
               />
               <h3>Ingredients</h3>
               <ul>
@@ -103,7 +105,7 @@ export function RecipeDetails() {
                     return (
                       <li
                         key={ key }
-                        data-testid={ `${index -= 17}-ingredient-name-and-measure` }
+                        data-testid={ `${index - 17}-ingredient-name-and-measure` }
                       >
                         { element[key] }
                         {' '}

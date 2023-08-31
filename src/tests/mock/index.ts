@@ -1,46 +1,32 @@
 import { vi } from 'vitest';
 import { mockData, mockDataDrinks, mockDataMeals } from './mockData';
 
+const getMockData = (data: any) => ({
+  json: async () => data,
+});
+
+const mockEndpoints = {
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=chicken': { meals: mockData.meals },
+  'https://www.themealdb.com/api/json/v1/1/search.php?f=c': { meals: mockData.meals },
+  'https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken': { meals: mockData.meals },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita': { drinks: mockData.drinks },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=m': { drinks: mockData.drinks },
+  'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Whitecap': { drinks: mockData.drinks },
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=sushi': { meals: mockData.sushi },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=vesper': { drinks: mockData.vesper },
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=xablau': { meals: null },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=xablau': { drinks: null },
+  'https://www.themealdb.com/api/json/v1/1/list.php?c=list': { meals: mockDataMeals },
+  'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list': { drinks: mockDataDrinks },
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=': { meals: mockData.meals },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=': { drinks: mockData.drinks },
+  'https://www.themealdb.com/api/json/v1/1/filter.php?c=Chicken': { meals: mockData.meals },
+  'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail': { drinks: mockData.drinks },
+} as any;
+
 export const makeMockFetch = () => {
-  global.fetch = vi.fn((url): any => {
-    const getMockData = (data: any) => ({
-      json: async () => data,
-    });
-    switch (url) {
-      case 'https://www.themealdb.com/api/json/v1/1/search.php?s=chicken':
-        return getMockData({ meals: mockData.meals });
-      case 'https://www.themealdb.com/api/json/v1/1/search.php?f=c':
-        return getMockData({ meals: mockData.meals });
-      case 'https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken':
-        return getMockData({ meals: mockData.meals });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita':
-        return getMockData({ drinks: mockData.drinks });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=m':
-        return getMockData({ drinks: mockData.drinks });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Whitecap':
-        return getMockData({ drinks: mockData.drinks });
-      case 'https://www.themealdb.com/api/json/v1/1/search.php?s=sushi':
-        return getMockData({ meals: mockData.sushi });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=vesper':
-        return getMockData({ drinks: mockData.vesper });
-      case 'https://www.themealdb.com/api/json/v1/1/search.php?s=xablau':
-        return getMockData({ meals: null });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=xablau':
-        return getMockData({ drinks: null });
-      case 'https://www.themealdb.com/api/json/v1/1/list.php?c=list':
-        return getMockData({ meals: mockDataMeals });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list':
-        return getMockData({ drinks: mockDataDrinks });
-      case 'https://www.themealdb.com/api/json/v1/1/search.php?s=':
-        return getMockData({ meals: mockData.meals });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=':
-        return getMockData({ drinks: mockData.drinks });
-      case 'https://www.themealdb.com/api/json/v1/1/filter.php?c=Chicken':
-        return getMockData({ meals: mockData.meals });
-      case 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail':
-        return getMockData({ drinks: mockData.drinks });
-        default:
-        return getMockData({ meals: mockData.meals });
-    }
+  global.fetch = vi.fn((url: any): any => {
+    const mockDataForUrl = mockEndpoints[url] || { meals: mockData.meals }; // Default to meals data
+    return getMockData(mockDataForUrl);
   });
 };

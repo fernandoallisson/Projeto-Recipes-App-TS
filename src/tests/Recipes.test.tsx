@@ -4,6 +4,9 @@ import App from '../App';
 import { makeMockFetch } from './mock';
 
 describe('testando a tela de receitas', () => {
+  const chikenName = 'Chicken Handi';
+  const startRecipeBtn = 'Start Recipe';
+
   makeMockFetch();
   // Meals
   it('Verifica se aparece os botões vindos da API', async () => {
@@ -29,11 +32,11 @@ describe('testando a tela de receitas', () => {
         <App />
       </MemoryRouter>,
     );
-    const beefBtn = await screen.findByTestId('Chicken-category-filter');
-    fireEvent.click(beefBtn);
+    const chickenBtn = await screen.findByTestId('Chicken-category-filter');
+    fireEvent.click(chickenBtn);
 
-    const beefAndMustardPie = await screen.findByText('Chicken Handi');
-    expect(beefAndMustardPie).toBeInTheDocument();
+    const chicken = await screen.findByText(chikenName);
+    expect(chicken).toBeInTheDocument();
   });
   it('Verifica se redireciona à página de detalhes quando clica no card Chicken', async () => {
     render(
@@ -41,15 +44,15 @@ describe('testando a tela de receitas', () => {
         <App />
       </MemoryRouter>,
     );
-    const beefBtn = await screen.findByTestId('Chicken-category-filter');
-    fireEvent.click(beefBtn);
+    const chickenBtn = await screen.findByTestId('Chicken-category-filter');
+    fireEvent.click(chickenBtn);
 
-    const beefAndMustardPie = await screen.findByText('Chicken Handi');
-    expect(beefAndMustardPie).toBeInTheDocument();
+    const chicken = await screen.findByText(chikenName);
+    expect(chicken).toBeInTheDocument();
 
-    fireEvent.click(beefAndMustardPie);
+    fireEvent.click(chicken);
 
-    const startRecipe = await screen.findByText('Start Recipe');
+    const startRecipe = await screen.findByText(startRecipeBtn);
     expect(startRecipe).toBeInTheDocument();
   });
   // Drinks
@@ -93,7 +96,57 @@ describe('testando a tela de receitas', () => {
 
     fireEvent.click(Belmont155);
 
-    const startRecipe = await screen.findByText('Start Recipe');
+    const startRecipe = await screen.findByText(startRecipeBtn);
     expect(startRecipe).toBeInTheDocument();
+  });
+  it('Verifica se aparece algumas receitas de comidas quando clica em All', async () => {
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
+    );
+    const allBtn = await screen.findByTestId('All-category-filter');
+    fireEvent.click(allBtn);
+
+    const chickenHandi = await screen.findByText('Chicken Handi');
+    const cickenMushroomHotpot = await screen.findByText('Chicken & mushroom Hotpot');
+    const chickenBasquaise = await screen.findByText('Chicken Basquaise');
+
+    expect(chickenHandi).toBeInTheDocument();
+    expect(cickenMushroomHotpot).toBeInTheDocument();
+    expect(chickenBasquaise).toBeInTheDocument();
+  });
+  it('Verifica se aparece algumas receitas de bebidas quando clica em All', async () => {
+    render(
+      <MemoryRouter initialEntries={ ['/drinks'] }>
+        <App />
+      </MemoryRouter>,
+    );
+    const allBtn = await screen.findByTestId('All-category-filter');
+    fireEvent.click(allBtn);
+
+    const margarita = await screen.findByText('Margarita');
+    const blueMargarita = await screen.findByText('Blue Margarita');
+    const tommyMargarita = await screen.findByText('Tommy\'s Margarita');
+    const whitecapMargarita = await screen.findByText('Whitecap Margarita');
+
+    expect(margarita).toBeInTheDocument();
+    expect(blueMargarita).toBeInTheDocument();
+    expect(tommyMargarita).toBeInTheDocument();
+    expect(whitecapMargarita).toBeInTheDocument();
+  });
+  it('deve acionar a função handleClick quando a tecla Enter for pressionada', async () => {
+    render(
+      <MemoryRouter initialEntries={ ['/drinks'] }>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const cardElement = await screen.findByText('Margarita');
+    fireEvent.keyDown(cardElement, { key: 'Enter' });
+
+    const margarita = await screen.findByText('Start Recipe');
+
+    expect(margarita).toBeInTheDocument();
   });
 });

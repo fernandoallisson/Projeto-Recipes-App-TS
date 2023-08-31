@@ -19,13 +19,13 @@ export function Cards() {
   const fetchProducts = async () => {
     if (location.pathname === '/drinks') {
       const responseDrinks = await getSearchDrinksByName('');
-      const drinks = responseDrinks.drinks || [];
+      const { drinks } = responseDrinks;
       setProductsToShow(drinks.slice(0, 12));
     }
 
     if (location.pathname === '/meals') {
       const responseMeals = await getSearchMealsByName('');
-      const meals = responseMeals.meals || [];
+      const { meals } = responseMeals;
       setProductsToShow(meals.slice(0, 12));
     }
   };
@@ -33,13 +33,13 @@ export function Cards() {
   const fetchCategories = async () => {
     if (location.pathname === '/drinks') {
       const responseDrinks = await getSearchDrinksCategories();
-      const drinks = responseDrinks.drinks || [];
+      const { drinks } = responseDrinks;
       setCategories(drinks.slice(0, 5));
       console.log(drinks);
     }
     if (location.pathname === '/meals') {
       const responseMeals = await getSearchMealsCategories();
-      const meals = responseMeals.meals || [];
+      const { meals } = responseMeals;
       setCategories(meals.slice(0, 5));
       console.log(categories);
     }
@@ -52,13 +52,13 @@ export function Cards() {
     } else if (category !== '') {
       if (location.pathname === '/drinks') {
         const responseDrinks = await getSearchDrinksByCategory(category);
-        const drinks = responseDrinks.drinks || [];
+        const { drinks } = responseDrinks;
         setProductsToShow(drinks.slice(0, 12));
         setOltCategory(category);
       }
       if (location.pathname === '/meals') {
         const responseMeals = await getSearchMealsByCategory(category);
-        const meals = responseMeals.meals || [];
+        const { meals } = responseMeals;
         setProductsToShow(meals.slice(0, 12));
         setOltCategory(category);
       }

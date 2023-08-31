@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 import App from '../App';
-import { makeMockFetch } from './mock';
+import { mockFetch } from './mock';
 
 describe('testando a Search Bar', () => {
   const btnToggleSearch = 'search-top-btn';
@@ -10,7 +10,7 @@ describe('testando a Search Bar', () => {
   const nameSeacrhRadio = 'name-search-radio';
   const execButton = 'exec-search-btn';
   const firstLetterSearchRadio = 'first-letter-search-radio';
-  makeMockFetch();
+  mockFetch();
 
   test('Verifica o clique no botão de pesquisa se existe o campo de pesquisa name', () => {
     render(
@@ -214,7 +214,7 @@ describe('testando a Search Bar', () => {
     expect(startRecipeBtn).toBeInTheDocument();
   });
   test('Verifica se aparece um alert com a mensagem "Sorry, we haven\'t found any recipes for these filters."', async () => {
-    makeMockFetch();
+    mockFetch();
     render(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />

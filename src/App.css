@@ -75,6 +75,8 @@ footer  {
 
 .startRecipe{
   bottom: 0;
-  left: 0;
+  left: 200;
   position: fixed;
 }
+
+ 

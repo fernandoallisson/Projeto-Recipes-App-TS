@@ -1,12 +1,26 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getRecipesById, getRecomendations } from '../Services/index';
+import { useLocation, useParams } from 'react-router-dom';
+import { getRecipesById } from '../Services/index';
 import { Drink, Meal } from '../types';
 import '../Components/Carousel.css';
+import { ButtonsRecipeDetails } from '../Components/ButtonsRecipeDetails';
+import { Carousel } from '../Components/Carousel';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 type RecipeDetailsType = {
   meals: Meal[] | any;
   drinks: Drink[] | any;
+};
+
+type FavoriteType = {
+  id: string;
+  type: string;
+  nationality: string;
+  category: string;
+  alcoholicOrNot: string;
+  name: string;
+  image: string;
 };
 
 export function RecipeDetails() {
@@ -16,24 +30,36 @@ export function RecipeDetails() {
   );
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [measure, setMeasure] = useState<string[]>([]);
-  const [recomendations, setRecomendations] = useState<RecipeDetailsType>({
-  } as RecipeDetailsType);
+  const [like, setLike] = useState(false);
+  const [favorite, setFavorite] = useState<FavoriteType[]>([
+    {
+      id: '',
+      type: '',
+      nationality: '',
+      category: '',
+      alcoholicOrNot: '',
+      name: '',
+      image: '',
+    },
+  ]);
 
-  const location = window.location.pathname;
+  const location = useLocation();
 
   const fetchDataRecipe = async () => {
-    if (location.includes('meals')) {
+    if (location.pathname.includes('meals')) {
       const data = await getRecipesById(`${id}`, 'meals');
       setRecipe(data);
     }
-    if (location.includes('drinks')) {
+    if (location.pathname.includes('drinks')) {
       const data = await getRecipesById(`${id}`, 'drinks');
       setRecipe(data);
+      console.log(recipe);
     }
   };
   // UseEffect para pegar as receitas
   useEffect(() => {
     fetchDataRecipe();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // UseEffect para pegar a measure
@@ -80,23 +106,32 @@ export function RecipeDetails() {
     }
   }, [recipe]);
 
-  // UseEffect para pegar recomendações de comidas ou bebidas
-  useEffect(() => {
-    if (location.includes('meals')) {
-      const fetchData = async () => {
-        const data = await getRecomendations('drinks');
-        setRecomendations(data);
-      };
-      fetchData();
+  const saveToLocalStorage = (recipes: any) => {
+    const recipeType = recipes.meals ? 'meal' : 'drink';
+    const recipeData = recipes.meals || recipes.drinks;
+    const favoriteRecipesStorage = JSON.parse(
+      localStorage.getItem('favoriteRecipes') || '[]',
+    );
+    const newFavoriteRecipe = {
+      id: recipeData[0].idMeal || recipeData[0].idDrink,
+      type: recipeType,
+      area: recipeData[0].strArea || '',
+      category: recipeData[0].strCategory || '',
+      alcoholicOrNot: recipeData[0].strAlcoholic || '',
+      name: recipeData[0].strMeal || recipeData[0].strDrink,
+      image: recipeData[0].strMealThumb || recipeData[0].strDrinkThumb,
+    };
+
+    const isRecipeAlreadyFavorite = favoriteRecipesStorage.some(
+      (recipinha: any) => recipinha.id === newFavoriteRecipe.id,
+    );
+
+    if (!isRecipeAlreadyFavorite) {
+      const newFavoriteRecipes = [...favoriteRecipesStorage, newFavoriteRecipe];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+      setFavorite(newFavoriteRecipes);
     }
-    if (location.includes('drinks')) {
-      const fetchData = async () => {
-        const data = await getRecomendations('meals');
-        setRecomendations(data);
-      };
-      fetchData();
-    }
-  }, [location]);
+  };
 
   return (
     <div>
@@ -122,9 +157,7 @@ export function RecipeDetails() {
                         data-testid={ `${index}-ingredient-name-and-measure` }
                       >
                         { ingredient }
-                        {' '}
                         -
-                        {' '}
                         { measure[index] }
                       </li>
                     ))
@@ -149,7 +182,6 @@ export function RecipeDetails() {
             { recipe.drinks.map((element: Drink) => (
               <div key={ element.idDrink }>
                 <h1 data-testid="recipe-title">{ element.strDrink }</h1>
-                {/* <h3 data-testid="recipe-category">{ element.strCategory }</h3> */}
                 <h3 data-testid="recipe-category">{ element.strAlcoholic }</h3>
                 <img
                   data-testid="recipe-photo"
@@ -166,9 +198,7 @@ export function RecipeDetails() {
                         data-testid={ `${index}-ingredient-name-and-measure` }
                       >
                         { ingredient }
-                        {' '}
                         -
-                        {' '}
                         { measure[index] }
                       </li>
                     ))
@@ -180,48 +210,18 @@ export function RecipeDetails() {
             ))}
           </div>
         )}
-        {recomendations.drinks && (
-          <div className="container">
-            { recomendations.drinks.slice(0, 6).map((element: Drink, index: number) => (
-              <div key={ element.idDrink } data-testid={ `${index}-recommendation-card` }>
-                <h1
-                  data-testid={ `${index}-recommendation-title` }
-                >
-                  { element.strDrink }
-                </h1>
-                <h3 data-testid="recipe-category">{ element.strAlcoholic }</h3>
-                <img
-                  data-testid="recipe-photo"
-                  src={ element.strDrinkThumb }
-                  alt={ element.strDrink }
-                  style={ { width: '300px', height: '200px' } }
-                />
-              </div>
-            ))}
-          </div>
-        )}
-        {recomendations.meals && (
-          <div className="container">
-            { recomendations.meals.slice(0, 6).map((element: Meal, index: number) => (
-              <div key={ element.idMeal } data-testid={ `${index}-recommendation-card` }>
-                <h1
-                  data-testid={ `${index}-recommendation-title` }
-                >
-                  { element.strMeal }
-                </h1>
-                <h3 data-testid="recipe-category">{ element.strCategory }</h3>
-                <img
-                  data-testid="recipe-photo"
-                  src={ element.strMealThumb }
-                  alt={ element.strMeal }
-                  style={ { width: '300px', height: '200px' } }
-                />
-              </div>
-            ))}
-          </div>
-        )}
       </div>
-      <button className="startRecipe" data-testid="start-recipe-btn">Start Recipe</button>
+      <Carousel />
+      <ButtonsRecipeDetails />
+      <button
+        data-testid="favorite-btn"
+        onClick={ () => {
+          setLike(!like);
+          saveToLocalStorage(recipe);
+        } }
+      >
+        <img src={ like ? blackHeartIcon : whiteHeartIcon } alt="White Heart" />
+      </button>
     </div>
   );
 }

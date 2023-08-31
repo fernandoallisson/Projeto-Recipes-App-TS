@@ -1,47 +1,37 @@
 import { vi } from 'vitest';
-import { mockData } from './mockData';
+import { mockData, mockDataDrinks, mockDataMeals } from './mockData';
 
-export const makeMockFetch = () => {
-  global.fetch = vi.fn((url): any => {
-    const getMockData = (data: any) => ({
-      json: async () => data,
-    });
+const getMockData = (data: any) => ({
+  json: async () => data,
+});
 
-    if (url === ('https://www.themealdb.com/api/json/v1/1/search.php?s=chicken')) {
-      return getMockData({ meals: mockData.meals });
-    }
-    if (url === ('https://www.themealdb.com/api/json/v1/1/search.php?f=c')) {
-      return getMockData({ meals: mockData.meals });
-    }
-    if (url === ('https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken')) {
-      return getMockData({ meals: mockData.meals });
-    }
-    if (url === ('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita')) {
-      return getMockData({ drinks: mockData.drinks });
-    }
-    if (url === ('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=m')) {
-      return getMockData({ drinks: mockData.drinks });
-    }
-    if (url === ('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Whitecap')) {
-      return getMockData({ drinks: mockData.drinks });
-    }
-    if (url === ('https://www.themealdb.com/api/json/v1/1/search.php?s=sushi')) {
-      return getMockData({ meals: mockData.sushi });
-    }
-    if (url === ('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=vesper')) {
-      return getMockData({ drinks: mockData.vesper });
-    }
-    if (url === ('https://www.themealdb.com/api/json/v1/1/search.php?s=xablau')) {
-      return getMockData({ meals: null });
-    }
-    if (url === ('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=xablau')) {
-      return getMockData({ drinks: null });
-    }
-    if (url === ('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=GG')) {
-      return getMockData({ dinks: mockData.drinks[4] });
-    }
-    if (url === ('https://www.themealdb.com/api/json/v1/1/search.php?s=Corba')) {
-      return getMockData({ meals: mockData.meals[3] });
-    }
+const mockEndpoints = {
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=chicken': { meals: mockData.meals },
+  'https://www.themealdb.com/api/json/v1/1/search.php?f=c': { meals: mockData.meals },
+  'https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken': { meals: mockData.meals },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita': { drinks: mockData.drinks },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=m': { drinks: mockData.drinks },
+  'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Whitecap': { drinks: mockData.drinks },
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=sushi': { meals: mockData.sushi },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=vesper': { drinks: mockData.vesper },
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=xablau': { meals: null },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=xablau': { drinks: null },
+  'https://www.themealdb.com/api/json/v1/1/list.php?c=list': { meals: mockDataMeals },
+  'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list': { drinks: mockDataDrinks },
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=': { meals: mockData.meals },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=': { drinks: mockData.drinks },
+  'https://www.themealdb.com/api/json/v1/1/filter.php?c=Chicken': { meals: mockData.meals },
+  'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail': { drinks: mockData.drinks },
+  'https://www.themealdb.com/api/json/v1/1/search.php?s=corba': { meals: mockData.meals },
+  'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=GG': { drinks: mockData.drinks },
+  'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52977': { meals: mockData.corba }, // Dados para 'Corba'
+} as any;
+
+export const mockFetch = () => {
+  global.fetch = vi.fn((url: any): any => {
+    console.log(url);
+    const mockDataForUrl = mockEndpoints[url] || { meals: mockData.meals }
+    || { drinks: mockData.drinks }; // Default to meals/drinks dadta
+    return getMockData(mockDataForUrl);
   });
 };

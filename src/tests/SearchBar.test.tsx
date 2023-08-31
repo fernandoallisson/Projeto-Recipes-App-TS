@@ -189,8 +189,8 @@ describe('testando a Search Bar', () => {
     const searchSubmit = screen.getByTestId(execButton);
     fireEvent.click(searchSubmit);
 
-    const sushi = await screen.findByText(/Meals Detail/i);
-    expect(sushi).toBeInTheDocument();
+    const startRecipeBtn = await screen.findByText(/Start Recipe/i);
+    expect(startRecipeBtn).toBeInTheDocument();
   });
   test('Verifica se é levado à rota /drinks:id ao achar digitar Vesper pelo nome', async () => {
     render(
@@ -210,8 +210,8 @@ describe('testando a Search Bar', () => {
     const searchSubmit = screen.getByTestId(execButton);
     fireEvent.click(searchSubmit);
 
-    const vesper = await screen.findByText(/Drink Details/i);
-    expect(vesper).toBeInTheDocument();
+    const startRecipeBtn = await screen.findByText(/Start Recipe/i);
+    expect(startRecipeBtn).toBeInTheDocument();
   });
   test('Verifica se aparece um alert com a mensagem "Sorry, we haven\'t found any recipes for these filters."', async () => {
     makeMockFetch();

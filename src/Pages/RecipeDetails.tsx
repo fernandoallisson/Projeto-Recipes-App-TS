@@ -29,7 +29,6 @@ export function RecipeDetails() {
     if (location.includes('drinks')) {
       const data = await getRecipesById(`${id}`, 'drinks');
       setRecipe(data);
-      console.log(recipe);
     }
   };
   // UseEffect para pegar as receitas

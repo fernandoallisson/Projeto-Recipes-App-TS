@@ -105,3 +105,18 @@ export type MealData = {
 export type DrinkData = {
   drinks: Drink[];
 };
+
+export type RecipeDetailsType = {
+  meals: Meal[] | any;
+  drinks: Drink[] | any;
+};
+
+export type FavoriteType = {
+  id: string;
+  type: string;
+  nationality: string;
+  category: string;
+  alcoholicOrNot: string;
+  name: string;
+  image: string;
+};

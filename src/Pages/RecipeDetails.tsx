@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getRecipesById } from '../Services/index';
 import { Drink, Meal } from '../types';
@@ -7,53 +7,30 @@ import { ButtonsRecipeDetails } from '../Components/ButtonsRecipeDetails';
 import { Carousel } from '../Components/Carousel';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-
-type RecipeDetailsType = {
-  meals: Meal[] | any;
-  drinks: Drink[] | any;
-};
-
-type FavoriteType = {
-  id: string;
-  type: string;
-  nationality: string;
-  category: string;
-  alcoholicOrNot: string;
-  name: string;
-  image: string;
-};
+import { RecipesContext } from '../Context';
 
 export function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
-  const [recipe, setRecipe] = useState<RecipeDetailsType>(
-    {} as RecipeDetailsType,
-  );
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [measure, setMeasure] = useState<string[]>([]);
   const [like, setLike] = useState(false);
-  const [favorite, setFavorite] = useState<FavoriteType[]>([
-    {
-      id: '',
-      type: '',
-      nationality: '',
-      category: '',
-      alcoholicOrNot: '',
-      name: '',
-      image: '',
-    },
-  ]);
+
+  const { hanleSetOnlyRecipes,
+    onlyRecipes,
+    handleSetFavorite } = useContext(RecipesContext);
 
   const location = useLocation();
 
   const fetchDataRecipe = async () => {
     if (location.pathname.includes('meals')) {
       const data = await getRecipesById(`${id}`, 'meals');
-      setRecipe(data);
+      // setRecipe(data);
+      hanleSetOnlyRecipes(data);
     }
     if (location.pathname.includes('drinks')) {
       const data = await getRecipesById(`${id}`, 'drinks');
-      setRecipe(data);
-      console.log(recipe);
+      // setRecipe(data);
+      hanleSetOnlyRecipes(data);
     }
   };
   // UseEffect para pegar as receitas
@@ -64,81 +41,91 @@ export function RecipeDetails() {
 
   // UseEffect para pegar a measure
   useEffect(() => {
-    if (recipe.meals) {
-      const measureList = Object.keys(recipe.meals[0]).map((key) => {
-        if (key.includes('strMeasure') && recipe.meals) {
-          return recipe.meals[0][key];
+    if (onlyRecipes.meals) {
+      const measureList = Object.keys(onlyRecipes.meals[0]).map((key) => {
+        if (key.includes('strMeasure') && onlyRecipes.meals) {
+          return onlyRecipes.meals[0][key];
         }
         return null;
       });
       setMeasure(measureList.filter((element) => element));
     }
-    if (recipe.drinks) {
-      const measureList = Object.keys(recipe.drinks[0]).map((key) => {
-        if (key.includes('strMeasure') && recipe.drinks) {
-          return recipe.drinks[0][key];
+    if (onlyRecipes.drinks) {
+      const measureList = Object.keys(onlyRecipes.drinks[0]).map((key) => {
+        if (key.includes('strMeasure') && onlyRecipes.drinks) {
+          return onlyRecipes.drinks[0][key];
         }
         return null;
       });
       setMeasure(measureList.filter((element) => element));
     }
-  }, [recipe]);
+  }, [onlyRecipes]);
 
   // UseEffect para pegar os ingredientes
   useEffect(() => {
-    if (recipe.meals) {
-      const ingredientsList = Object.keys(recipe.meals[0]).map((key) => {
-        if (key.includes('strIngredient') && recipe.meals) {
-          return recipe.meals[0][key];
+    if (onlyRecipes.meals) {
+      const ingredientsList = Object.keys(onlyRecipes.meals[0]).map((key) => {
+        if (key.includes('strIngredient') && onlyRecipes.meals) {
+          return onlyRecipes.meals[0][key];
         }
         return null;
       });
       setIngredients(ingredientsList.filter((element) => element));
     }
-    if (recipe.drinks) {
-      const ingredientsList = Object.keys(recipe.drinks[0]).map((key) => {
-        if (key.includes('strIngredient') && recipe.drinks) {
-          return recipe.drinks[0][key];
+    if (onlyRecipes.drinks) {
+      const ingredientsList = Object.keys(onlyRecipes.drinks[0]).map((key) => {
+        if (key.includes('strIngredient') && onlyRecipes.drinks) {
+          return onlyRecipes.drinks[0][key];
         }
         return null;
       });
       setIngredients(ingredientsList.filter((element) => element));
     }
-  }, [recipe]);
+  }, [onlyRecipes]);
 
   const saveToLocalStorage = (recipes: any) => {
-    const recipeType = recipes.meals ? 'meal' : 'drink';
-    const recipeData = recipes.meals || recipes.drinks;
-    const favoriteRecipesStorage = JSON.parse(
-      localStorage.getItem('favoriteRecipes') || '[]',
-    );
-    const newFavoriteRecipe = {
-      id: recipeData[0].idMeal || recipeData[0].idDrink,
-      type: recipeType,
-      area: recipeData[0].strArea || '',
-      category: recipeData[0].strCategory || '',
-      alcoholicOrNot: recipeData[0].strAlcoholic || '',
-      name: recipeData[0].strMeal || recipeData[0].strDrink,
-      image: recipeData[0].strMealThumb || recipeData[0].strDrinkThumb,
-    };
-
-    const isRecipeAlreadyFavorite = favoriteRecipesStorage.some(
-      (recipinha: any) => recipinha.id === newFavoriteRecipe.id,
-    );
-
-    if (!isRecipeAlreadyFavorite) {
-      const newFavoriteRecipes = [...favoriteRecipesStorage, newFavoriteRecipe];
+    if (!like) {
+      const recipeType = recipes.meals ? 'meal' : 'drink';
+      const recipeData = recipes.meals || recipes.drinks;
+      const favoriteRecipesStorage = JSON.parse(
+        localStorage.getItem('favoriteRecipes') || '[]',
+      );
+      const newFavoriteRecipe = {
+        id: recipeData[0].idMeal || recipeData[0].idDrink,
+        type: recipeType,
+        area: recipeData[0].strArea || '',
+        category: recipeData[0].strCategory || '',
+        alcoholicOrNot: recipeData[0].strAlcoholic || '',
+        name: recipeData[0].strMeal || recipeData[0].strDrink,
+        image: recipeData[0].strMealThumb || recipeData[0].strDrinkThumb,
+      };
+      const isRecipeAlreadyFavorite = favoriteRecipesStorage.some(
+        (recipinha: any) => recipinha.id === newFavoriteRecipe.id,
+      );
+      if (!isRecipeAlreadyFavorite) {
+        const newFavoriteRecipes = [...favoriteRecipesStorage, newFavoriteRecipe];
+        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+        handleSetFavorite(newFavoriteRecipes);
+      }
+    }
+    if (like) {
+      const favoriteRecipesStorage = JSON.parse(
+        localStorage.getItem('favoriteRecipes') || '[]',
+      );
+      const newFavoriteRecipes = favoriteRecipesStorage.filter(
+        (recipinha: any) => recipinha.id !== id,
+      );
       localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
-      setFavorite(newFavoriteRecipes);
+      handleSetFavorite(newFavoriteRecipes);
     }
   };
 
   return (
     <div>
       <div>
-        {recipe.meals && (
+        {onlyRecipes.meals && (
           <div>
-            { recipe.meals.map((element: Meal) => (
+            { onlyRecipes.meals.map((element: Meal) => (
               <div key={ element.idMeal }>
                 <h1 data-testid="recipe-title">{ element.strMeal }</h1>
                 <h3 data-testid="recipe-category">{ element.strCategory }</h3>
@@ -177,9 +164,9 @@ export function RecipeDetails() {
             ))}
           </div>
         )}
-        {recipe.drinks && (
+        {onlyRecipes.drinks && (
           <div>
-            { recipe.drinks.map((element: Drink) => (
+            { onlyRecipes.drinks.map((element: Drink) => (
               <div key={ element.idDrink }>
                 <h1 data-testid="recipe-title">{ element.strDrink }</h1>
                 <h3 data-testid="recipe-category">{ element.strAlcoholic }</h3>
@@ -217,7 +204,7 @@ export function RecipeDetails() {
         data-testid="favorite-btn"
         onClick={ () => {
           setLike(!like);
-          saveToLocalStorage(recipe);
+          saveToLocalStorage(onlyRecipes);
         } }
       >
         <img src={ like ? blackHeartIcon : whiteHeartIcon } alt="White Heart" />

@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { FavoriteType, RecipeDetailsType } from '../types';
 
 export type AuthContextType = {
   emailState: string;
@@ -10,6 +11,11 @@ export type RecipesContextType = {
     meals: [];
   } | any;
   setHandleProductsInfo: (produtcs: { meals: [] }) => void;
+  hanleSetOnlyRecipes: (produtcs: RecipeDetailsType) => void;
+  onlyRecipes: RecipeDetailsType;
+  favorite: FavoriteType[] | any;
+  handleSetFavorite: (recipe: FavoriteType | any) => void;
+
 };
 
 export const AuthContext = createContext({} as AuthContextType);

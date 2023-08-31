@@ -29,9 +29,8 @@ describe('testando a RecipeDetails', () => {
         {/* Renderize o componente relevante */}
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
-    const searchName = screen.getByText(/sushi/i);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const sushi = screen.getByRole('heading', { name: /sushi/i });
     expect(sushi).toBeInTheDocument();
   });
@@ -42,9 +41,8 @@ describe('testando a RecipeDetails', () => {
         <RecipeDetails />
       </MemoryRouter>,
     );
-    // const searchButton = screen.getByTestId(btnToggleSearch);
-    // fireEvent.click(searchButton);
-    // const searchFl = screen.getByText(/first letter/i);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const sushi = screen.getByRole('img', { name: /sushi/i });
     expect(sushi).toBeInTheDocument();
   });
@@ -54,8 +52,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const searchCategory = screen.getByText(/category/i);
     expect(searchCategory).toBeInTheDocument();
   });
@@ -65,8 +63,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const category = screen.getByRole('heading', { name: /gg/i });
     expect(category).toBeInTheDocument();
   });
@@ -76,8 +74,8 @@ describe('testando a RecipeDetails', () => {
   //       <App />
   //     </MemoryRouter>,
   //   );
-  //   const searchButton = screen.getByTestId(btnToggleSearch);
-  //   fireEvent.click(searchButton);
+  //   const execButton = screen.getByTestId('exec-search-btn');
+  //   fireEvent.click(execButton);
   //   const category = screen.getByRole('heading', { name: /a1/i });
   //   expect(category).toBeInTheDocument();
   // });
@@ -87,8 +85,8 @@ describe('testando a RecipeDetails', () => {
   //       <App />
   //     </MemoryRouter>,
   //   );
-  //   const searchButton = screen.getByTestId(btnToggleSearch);
-  //   fireEvent.click(searchButton);
+  //   const execButton = screen.getByTestId('exec-search-btn');
+  //   fireEvent.click(execButton);
   //   const category = screen.getByRole('heading', { name: /ace/i });
   //   expect(category).toBeInTheDocument();
   // });
@@ -98,8 +96,8 @@ describe('testando a RecipeDetails', () => {
   //       <App />
   //     </MemoryRouter>,
   //   );
-  //   const searchButton = screen.getByTestId(btnToggleSearch);
-  //   fireEvent.click(searchButton);
+  //   const execButton = screen.getByTestId('exec-search-btn');
+  // fireEvent.click(execButton);
   //   const category = screen.getByRole('heading', { name: /747/i });
   //   expect(category).toBeInTheDocument();
   // });
@@ -109,8 +107,8 @@ describe('testando a RecipeDetails', () => {
   //       <App />
   //     </MemoryRouter>,
   //   );
-  //   const searchButton = screen.getByTestId(btnToggleSearch);
-  //   fireEvent.click(searchButton);
+  //   const execButton = screen.getByTestId('exec-search-btn');
+  //   fireEvent.click(execButton);
   //   const category = screen.getByRole('heading', { name: /kir/i });
   //   expect(category).toBeInTheDocument();
   // });
@@ -120,8 +118,8 @@ describe('testando a RecipeDetails', () => {
   //       <App />
   //     </MemoryRouter>,
   //   );
-  //   const searchButton = screen.getByTestId(btnToggleSearch);
-  //   fireEvent.click(searchButton);
+  //   const execButton = screen.getByTestId('exec-search-btn');
+  //   fireEvent.click(execButton);
   //   const category = screen.getByRole('heading', { name: /abc/i });
   //   expect(category).toBeInTheDocument();
   // });
@@ -131,8 +129,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const category = screen.getByRole('heading', { name: /corba/i });
     expect(category).toBeInTheDocument();
   });
@@ -142,8 +140,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const category = screen.getByRole('heading', { name: /kumpir/i });
     expect(category).toBeInTheDocument();
   });
@@ -153,8 +151,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const category = screen.getByRole('heading', { name: /burek/i });
     expect(category).toBeInTheDocument();
   });
@@ -164,8 +162,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const category = screen.getByText(/sushi/i);
     expect(category).toBeInTheDocument();
   });
@@ -175,8 +173,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const category = screen.getByText(/bistek/i);
     expect(category).toBeInTheDocument();
   });
@@ -186,8 +184,8 @@ describe('testando a RecipeDetails', () => {
         <App />
       </MemoryRouter>,
     );
-    const searchButton = screen.getByTestId(btnToggleSearch);
-    fireEvent.click(searchButton);
+    const execButton = screen.getByTestId('exec-search-btn');
+    fireEvent.click(execButton);
     const category = screen.getByText(/tamiya/i);
     expect(category).toBeInTheDocument();
   });

@@ -35,11 +35,13 @@ export function Cards() {
       const responseDrinks = await getSearchDrinksCategories();
       const drinks = responseDrinks.drinks || [];
       setCategories(drinks.slice(0, 5));
+      console.log(drinks);
     }
     if (location.pathname === '/meals') {
       const responseMeals = await getSearchMealsCategories();
       const meals = responseMeals.meals || [];
       setCategories(meals.slice(0, 5));
+      console.log(categories);
     }
   };
 

@@ -38,10 +38,10 @@ export const makeMockFetch = () => {
       return getMockData({ drinks: null });
     }
     if (url === ('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=GG')) {
-      return getMockData({ dinks: mockData.drinks });
+      return getMockData({ dinks: mockData.drinks[4] });
     }
     if (url === ('https://www.themealdb.com/api/json/v1/1/search.php?s=Corba')) {
-      return getMockData({ meals: mockData.meals });
+      return getMockData({ meals: mockData.meals[3] });
     }
   });
 };

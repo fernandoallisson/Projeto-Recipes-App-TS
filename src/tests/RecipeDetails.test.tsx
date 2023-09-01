@@ -50,9 +50,9 @@ describe('testando a RecipeDetails', () => {
     const optionalAlcohol = await screen.findByText('Optional alcohol');
     expect(optionalAlcohol).toBeInTheDocument();
   });
-  test.only('Verifica se na rota [/meals/52997/in-progress] existe o nome [Continue Recipe]', async () => {
+  test.only('Verifica se na rota [/meals/52977/in-progress] existe o nome [Continue Recipe]', async () => {
     render(
-      <MemoryRouter initialEntries={ ['meals/52997/in-progress'] }>
+      <MemoryRouter initialEntries={ ['meals/52977/in-progress'] }>
         <App />
       </MemoryRouter>,
     );

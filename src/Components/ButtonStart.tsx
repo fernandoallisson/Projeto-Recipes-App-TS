@@ -4,12 +4,14 @@ export function ButtonStart() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
+  const id = pathname.split('/')[2];
+
   const hanleStartRecipe = () => {
     if (pathname.includes('meals')) {
-      navigate('/meals/52771/in-progress');
+      navigate(`/meals/${id}/in-progress`);
     }
     if (pathname.includes('drinks')) {
-      navigate('/drinks/178319/in-progress');
+      navigate(`/drinks/${id}/in-progress`);
     }
   };
 

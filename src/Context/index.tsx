@@ -15,8 +15,8 @@ export type RecipesContextType = {
   onlyRecipes: RecipeDetailsType;
   favorite: FavoriteType[] | any;
   handleSetFavorite: (recipe: FavoriteType | any) => void;
-  ingredients: IngredientsListType[];
-  handleSetIngredients: (ingredientsList: IngredientsListType) => void;
+  ingredients: string[];
+  handleSetIngredients: (ingredientsList: string[]) => void;
 
 };
 

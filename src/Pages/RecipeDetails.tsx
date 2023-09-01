@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getRecipesById } from '../Services/index';
 import { Drink, IngredientsListType, Meal } from '../types';
-import '../Components/Carousel.css';
 import { ButtonsRecipeDetails } from '../Components/ButtonsRecipeDetails';
 import { Carousel } from '../Components/Carousel';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -12,7 +11,7 @@ import { ButtonStart } from '../Components/ButtonStart';
 
 export function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
-  const [ingredients, setIngredients] = useState<string[]>([]);
+  const [ingredients, setIngredientes] = useState<string[]>([]);
   const [measure, setMeasure] = useState<string[]>([]);
   const [like, setLike] = useState(false);
 
@@ -39,6 +38,7 @@ export function RecipeDetails() {
   // UseEffect para pegar as receitas
   useEffect(() => {
     fetchDataRecipe();
+    verifyFavorite();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -73,7 +73,7 @@ export function RecipeDetails() {
         }
         return null;
       });
-      setIngredients(ingredientsList.filter((element) => element));
+      setIngredientes(ingredientsList.filter((element) => element));
     }
     if (onlyRecipes.drinks) {
       const ingredientsList = Object.keys(onlyRecipes.drinks[0]).map((key) => {
@@ -82,7 +82,7 @@ export function RecipeDetails() {
         }
         return null;
       });
-      setIngredients(ingredientsList.filter((element) => element));
+      setIngredientes(ingredientsList.filter((element) => element));
     }
   }, [onlyRecipes]);
 
@@ -98,6 +98,17 @@ export function RecipeDetails() {
     }
   }, [ingredients, measure]);
 
+  const verifyFavorite = () => {
+    const favoriteRecipesStorage = JSON.parse(
+      localStorage.getItem('favoriteRecipes') || '[]',
+    );
+    const isRecipeAlreadyFavorite = favoriteRecipesStorage.some(
+      (recipinha: any) => recipinha.id === id,
+    );
+    if (isRecipeAlreadyFavorite) {
+      setLike(true);
+    }
+  };
   const saveToLocalStorage = (recipes: any) => {
     if (!like) {
       const recipeType = recipes.meals ? 'meal' : 'drink';
@@ -108,7 +119,7 @@ export function RecipeDetails() {
       const newFavoriteRecipe = {
         id: recipeData[0].idMeal || recipeData[0].idDrink,
         type: recipeType,
-        area: recipeData[0].strArea || '',
+        nationality: recipeData[0].strArea || '',
         category: recipeData[0].strCategory || '',
         alcoholicOrNot: recipeData[0].strAlcoholic || '',
         name: recipeData[0].strMeal || recipeData[0].strDrink,
@@ -216,13 +227,16 @@ export function RecipeDetails() {
       <Carousel />
       <ButtonsRecipeDetails />
       <button
-        data-testid="favorite-btn"
         onClick={ () => {
           setLike(!like);
           saveToLocalStorage(onlyRecipes);
         } }
       >
-        <img src={ like ? blackHeartIcon : whiteHeartIcon } alt="White Heart" />
+        <img
+          src={ like ? blackHeartIcon : whiteHeartIcon }
+          data-testid="favorite-btn"
+          alt="White Heart"
+        />
       </button>
       <ButtonStart />
     </div>

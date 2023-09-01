@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getRecipesById } from '../Services/index';
-import { Drink, Meal } from '../types';
+import { Drink, IngredientsListType, Meal } from '../types';
 import '../Components/Carousel.css';
 import { ButtonsRecipeDetails } from '../Components/ButtonsRecipeDetails';
 import { Carousel } from '../Components/Carousel';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import { RecipesContext } from '../Context';
+import { ButtonStart } from '../Components/ButtonStart';
 
 export function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -17,7 +18,9 @@ export function RecipeDetails() {
 
   const { hanleSetOnlyRecipes,
     onlyRecipes,
-    handleSetFavorite } = useContext(RecipesContext);
+    handleSetFavorite,
+    handleSetIngredients,
+  } = useContext(RecipesContext);
 
   const location = useLocation();
 
@@ -82,6 +85,18 @@ export function RecipeDetails() {
       setIngredients(ingredientsList.filter((element) => element));
     }
   }, [onlyRecipes]);
+
+  // UseEffect para juntar o ingrediente com a medida
+  useEffect(() => {
+    if (ingredients.length > 0 && measure.length > 0) {
+      const ingredientsAndMeasure = ingredients.map(
+        (ingredient: string, index: number) => (
+          `${ingredient} - ${measure[index]}`
+        ),
+      );
+      handleSetIngredients(ingredientsAndMeasure);
+    }
+  }, [ingredients, measure]);
 
   const saveToLocalStorage = (recipes: any) => {
     if (!like) {
@@ -209,6 +224,7 @@ export function RecipeDetails() {
       >
         <img src={ like ? blackHeartIcon : whiteHeartIcon } alt="White Heart" />
       </button>
+      <ButtonStart />
     </div>
   );
 }

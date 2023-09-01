@@ -120,3 +120,9 @@ export type FavoriteType = {
   name: string;
   image: string;
 };
+
+export type IngredientsListType = {
+  id: string;
+  ingredients: string[];
+  checked: boolean;
+};

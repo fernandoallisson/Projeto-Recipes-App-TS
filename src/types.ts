@@ -121,8 +121,12 @@ export type FavoriteType = {
   image: string;
 };
 
-export type IngredientsListType = {
+export type RecipeInProgressType = {
   id: string;
-  ingredients: string[];
-  checked: boolean;
+  type: string;
+  name: string;
+  image: string;
+  category: string;
+  ingreientsList: string[];
+  instructions: string;
 };

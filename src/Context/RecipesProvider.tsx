@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { RecipesContext } from './index';
-import { FavoriteType, IngredientsListType, RecipeDetailsType } from '../types';
-import { Meals } from '../Pages/Meals';
+import { FavoriteType, RecipeDetailsType } from '../types';
 
 type RecipesProviderProps = {
   children: React.ReactNode;
@@ -12,7 +12,9 @@ export function RecipesProvider({ children }: RecipesProviderProps) {
   const [favorite, setFavorite] = useState<FavoriteType[]>([]);
   const [onlyRecipes, setOnlyRecipes] = useState<RecipeDetailsType>({
   } as RecipeDetailsType);
-  const [ingredients, setIngredients] = useState<IngredientsListType[]>([]);
+  const [ingredients, setIngredients] = useState<string[]>([]);
+
+  const location = useLocation();
 
   const setHandleProductsInfo = (recipes: { meals: []; }) => {
     setProductInfo(recipes);
@@ -26,17 +28,8 @@ export function RecipesProvider({ children }: RecipesProviderProps) {
     setFavorite([...favorite, recipe]);
   };
 
-  const handleSetIngredients = (ingredientsList: IngredientsListType) => {
-    setIngredients([
-      ...ingredients,
-      ingredientsList,
-    ]);
-    // Salvar no Local Storage
-    localStorage.setItem('inProgressRecipes', JSON.stringify({
-      drinks: ingredients,
-    } || {
-      meals: ingredients,
-    }));
+  const handleSetIngredients = (ingredientsList: string[]) => {
+    setIngredients(ingredientsList);
   };
 
   return (

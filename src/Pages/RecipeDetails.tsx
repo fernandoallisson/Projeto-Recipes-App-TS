@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getRecipesById } from '../Services/index';
-import { Drink, IngredientsListType, Meal } from '../types';
+import { Drink, Meal } from '../types';
 import { ButtonsRecipeDetails } from '../Components/ButtonsRecipeDetails';
 import { Carousel } from '../Components/Carousel';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -94,6 +94,7 @@ export function RecipeDetails() {
           `${ingredient} - ${measure[index]}`
         ),
       );
+      console.log(ingredientsAndMeasure);
       handleSetIngredients(ingredientsAndMeasure);
     }
   }, [ingredients, measure]);
@@ -181,7 +182,7 @@ export function RecipeDetails() {
                 <iframe
                   data-testid="video"
                   title={ element.strMeal }
-                  src={ `https://www.youtube.com/embed/${element.strYoutube.split('v=')[1]}` }
+                  src={ `https://www.youtube.com/embed/${element.strYoutube}` }
                   width="320"
                   height="240"
                   allowFullScreen

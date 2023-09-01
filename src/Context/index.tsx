@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { FavoriteType, IngredientsListType, RecipeDetailsType } from '../types';
+import { FavoriteType, RecipeDetailsType } from '../types';
 
 export type AuthContextType = {
   emailState: string;

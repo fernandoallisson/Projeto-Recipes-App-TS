@@ -5,7 +5,7 @@ import { mockFetch } from './mock';
 
 describe('testando a tela de receitas', () => {
   const chikenName = 'Chicken Handi';
-  const startRecipeBtn = 'Start Recipe';
+  const startRecipeBtn = 'start-recipe-btn';
 
   mockFetch();
   // Meals
@@ -52,7 +52,7 @@ describe('testando a tela de receitas', () => {
 
     fireEvent.click(chicken);
 
-    const startRecipe = await screen.findByText(startRecipeBtn);
+    const startRecipe = await screen.findByTestId(startRecipeBtn);
     expect(startRecipe).toBeInTheDocument();
   });
   // Drinks
@@ -96,7 +96,7 @@ describe('testando a tela de receitas', () => {
 
     fireEvent.click(Belmont155);
 
-    const startRecipe = await screen.findByText(startRecipeBtn);
+    const startRecipe = await screen.findByTestId(startRecipeBtn);
     expect(startRecipe).toBeInTheDocument();
   });
   it('Verifica se aparece algumas receitas de comidas quando clica em All', async () => {
@@ -145,7 +145,7 @@ describe('testando a tela de receitas', () => {
     const cardElement = await screen.findByText('Margarita');
     fireEvent.keyDown(cardElement, { key: 'Enter' });
 
-    const margarita = await screen.findByText('Start Recipe');
+    const margarita = await screen.findByTestId(startRecipeBtn);
 
     expect(margarita).toBeInTheDocument();
   });

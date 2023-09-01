@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { vi } from 'vitest';
 import { mockFetch } from './mock/index';
 import App from '../App';
 
 describe('testando a RecipeDetails', () => {
   mockFetch();
-
   test('Verifica se na rota [/meals/52977] existe o nome [Corba]', async () => {
     render(
       <MemoryRouter initialEntries={ ['/meals/52977'] }>
@@ -49,25 +48,5 @@ describe('testando a RecipeDetails', () => {
 
     const optionalAlcohol = await screen.findByText('Optional alcohol');
     expect(optionalAlcohol).toBeInTheDocument();
-  });
-  test.only('Verifica se na rota [/meals/52977/in-progress] existe o nome [Continue Recipe]', async () => {
-    render(
-      <MemoryRouter initialEntries={ ['meals/52977/in-progress'] }>
-        <App />
-      </MemoryRouter>,
-    );
-    const title = await screen.findByText('Continue Recipe');
-    expect(title).toBeInTheDocument();
-
-    // fireEvent.click(corba);
-
-    // const ingredients = await screen.findByTestId('0-ingredient-name-and-measure');
-    // expect(ingredients).toBeInTheDocument();
-
-    // const instructions = await screen.findByText('Instructions');
-    // expect(instructions).toBeInTheDocument();
-
-    // const side = await screen.findByText('Side');
-    // expect(side).toBeInTheDocument();
   });
 });

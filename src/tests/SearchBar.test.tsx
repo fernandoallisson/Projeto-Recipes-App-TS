@@ -171,7 +171,7 @@ describe('testando a Search Bar', () => {
     const vesper = await screen.findByText(/Tommy's Margarita/i);
     expect(vesper).toBeInTheDocument();
   });
-  test('Verifica se é levaddo à rota /mels:id ao achar digitar sushi pelo nome', async () => {
+  test('Verifica se é levado à rota /meals:id ao achar digitar sushi pelo nome', async () => {
     render(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
@@ -189,7 +189,7 @@ describe('testando a Search Bar', () => {
     const searchSubmit = screen.getByTestId(execButton);
     fireEvent.click(searchSubmit);
 
-    const startRecipeBtn = await screen.findByText(/Start Recipe/i);
+    const startRecipeBtn = await screen.findByTestId('start-recipe-btn');
     expect(startRecipeBtn).toBeInTheDocument();
   });
   test('Verifica se é levado à rota /drinks:id ao achar digitar Vesper pelo nome', async () => {
@@ -210,7 +210,7 @@ describe('testando a Search Bar', () => {
     const searchSubmit = screen.getByTestId(execButton);
     fireEvent.click(searchSubmit);
 
-    const startRecipeBtn = await screen.findByText(/Start Recipe/i);
+    const startRecipeBtn = await screen.findByTestId('start-recipe-btn');
     expect(startRecipeBtn).toBeInTheDocument();
   });
   test('Verifica se aparece um alert com a mensagem "Sorry, we haven\'t found any recipes for these filters."', async () => {

@@ -50,4 +50,24 @@ describe('testando a RecipeDetails', () => {
     const optionalAlcohol = await screen.findByText('Optional alcohol');
     expect(optionalAlcohol).toBeInTheDocument();
   });
+  test.only('Verifica se na rota [/meals/52997/in-progress] existe o nome [Continue Recipe]', async () => {
+    render(
+      <MemoryRouter initialEntries={ ['meals/52997/in-progress'] }>
+        <App />
+      </MemoryRouter>,
+    );
+    const title = await screen.findByText('Continue Recipe');
+    expect(title).toBeInTheDocument();
+
+    // fireEvent.click(corba);
+
+    // const ingredients = await screen.findByTestId('0-ingredient-name-and-measure');
+    // expect(ingredients).toBeInTheDocument();
+
+    // const instructions = await screen.findByText('Instructions');
+    // expect(instructions).toBeInTheDocument();
+
+    // const side = await screen.findByText('Side');
+    // expect(side).toBeInTheDocument();
+  });
 });

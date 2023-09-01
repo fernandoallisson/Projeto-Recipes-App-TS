@@ -28,7 +28,7 @@ export function RecipeInProgress() {
 
   return (
     <div>
-      <button onClick={ handleTeste }>Teste</button>
+      <button onClick={ handleTeste }>Continue Recipe</button>
       <h1 data-testid="page-title">Recipe Details</h1>
       { receita && (
         <div>

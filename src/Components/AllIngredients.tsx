@@ -61,7 +61,8 @@ export function AllIngredients() {
       );
       handleSetIngredients(ingredientsAndMeasure);
     }
-  }, [onlyRecipes]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [measure, ingredients]);
   return (
     <div>
       <h3>Ingredients</h3>

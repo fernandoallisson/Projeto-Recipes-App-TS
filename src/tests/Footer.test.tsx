@@ -1,7 +1,6 @@
 import React from 'react';
-import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { Meals } from '../Pages/Meals';
 import App from '../App';
 
 describe('Footer Component', () => {

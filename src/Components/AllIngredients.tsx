@@ -61,7 +61,7 @@ export function AllIngredients() {
       );
       handleSetIngredients(ingredientsAndMeasure);
     }
-  }, [handleSetIngredients, ingredients, measure]);
+  }, [onlyRecipes]);
   return (
     <div>
       <h3>Ingredients</h3>

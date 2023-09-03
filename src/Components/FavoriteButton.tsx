@@ -19,7 +19,11 @@ export function FavoriteButton() {
     setIsFavorite(isRecipeAlreadyFavorite);
   }, [id]);
 
-  const toggleFavorite = () => {
+  function toggleFavorite() {
+    if (!onlyRecipes.meals && !onlyRecipes.drinks) {
+      return; // No recipes to toggle favorite for
+    }
+
     const recipeData = onlyRecipes.meals || onlyRecipes.drinks;
     const {
       idMeal,
@@ -30,7 +34,8 @@ export function FavoriteButton() {
       strMeal,
       strDrink,
       strMealThumb,
-      strDrinkThumb } = recipeData[0];
+      strDrinkThumb,
+    } = recipeData[0];
 
     const newFavoriteRecipe = {
       id: idMeal || idDrink,
@@ -63,9 +68,8 @@ export function FavoriteButton() {
       localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
       handleSetFavorite(newFavoriteRecipes);
     }
-
     setIsFavorite(!isFavorite);
-  };
+  }
 
   return (
     <button onClick={ toggleFavorite }>

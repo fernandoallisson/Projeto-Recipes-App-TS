@@ -78,7 +78,7 @@ footer {
   overflow-x: scroll;
 }
 
-.riscado { 
+.riscado {
   text-decoration: line-through solid black;
 }
 
@@ -87,5 +87,3 @@ footer {
   position: fixed;
   right: 200px;
 }
-
-

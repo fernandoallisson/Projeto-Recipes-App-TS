@@ -67,23 +67,25 @@
   }
 }
 
-footer  {
+footer {
   bottom: 0;
   left: 0;
   position: fixed;
-}
-
-.startRecipe{
-  bottom: 0;
-  right: 200px;
-  position: fixed;
-}
-
-.riscado {
-  text-decoration: line-through solid rgb(0, 0, 0);
 }
 
 .container {
   display: flex;
   overflow-x: scroll;
 }
+
+.riscado { 
+  text-decoration: line-through solid black;
+}
+
+.startRecipe {
+  bottom: 0;
+  position: fixed;
+  right: 200px;
+}
+
+

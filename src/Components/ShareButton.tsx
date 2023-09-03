@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
-export function ButtonsRecipeDetails() {
+export function ShareButton() {
   const [linkCopied, setLinkCopied] = useState(false);
   const { id } = useParams<{ id: string }>();
 

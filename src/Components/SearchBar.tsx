@@ -61,6 +61,7 @@ export function SearchBar() {
   useEffect(() => {
     oneProduct();
     noProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsInfo]);
 
   const handleSearch = async () => {

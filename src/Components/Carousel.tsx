@@ -1,4 +1,3 @@
-import './Carousel.css';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getRecomendations } from '../Services';

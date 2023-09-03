@@ -83,4 +83,7 @@ footer  {
   text-decoration: line-through solid rgb(0, 0, 0);
 }
 
- 
+.container {
+  display: flex;
+  overflow-x: scroll;
+}

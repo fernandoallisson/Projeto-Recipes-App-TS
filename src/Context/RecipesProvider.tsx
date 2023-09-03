@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { RecipesContext } from './index';
 import { FavoriteType, RecipeDetailsType } from '../types';
 
@@ -13,8 +12,6 @@ export function RecipesProvider({ children }: RecipesProviderProps) {
   const [onlyRecipes, setOnlyRecipes] = useState<RecipeDetailsType>({
   } as RecipeDetailsType);
   const [ingredients, setIngredients] = useState<string[]>([]);
-
-  const location = useLocation();
 
   const setHandleProductsInfo = (recipes: { meals: []; }) => {
     setProductInfo(recipes);

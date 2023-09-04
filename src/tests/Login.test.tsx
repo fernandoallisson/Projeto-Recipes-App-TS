@@ -9,9 +9,6 @@ describe('testando a aplicação', () => {
   const PASSWORDID = 'password-input';
   const LOGINBUTTONID = 'login-submit-btn';
   const EMAILTEST = 'teste@teste.com';
-  beforeEach(() => {
-    mockFetch();
-  });
 
   test('testa se a aplicação tem os elemento necessários do Login', () => {
     render(
@@ -53,6 +50,7 @@ describe('testando a aplicação', () => {
     expect(loginButton).not.toBeDisabled();
   });
   test('testa se a rota muda para /meals', () => {
+    mockFetch();
     render(
       <Router>
         <App />

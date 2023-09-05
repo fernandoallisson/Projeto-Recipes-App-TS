@@ -56,57 +56,62 @@ export function SearchBar() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsInfo]);
 
-  // eslint-disable-next-line complexity, sonarjs/cognitive-complexity
-  async function handleSearch() {
+  const handleSearch = async () => {
     if (location.pathname === '/meals') {
-      switch (filter) {
-        case 'Mname': {
-          const { meals } = await getSearchMealsByName(input);
-          setHandleProductsInfo(meals && meals.slice(0, 12));
-        }
-          break;
-        case 'Mingredient': {
-          const { meals } = await getSearchMealsByIngredient(input);
-          setHandleProductsInfo(meals && meals.slice(0, 12));
-        }
-          break;
-        case 'MfirstLetter':
-          if (input.length === 1) {
-            const { meals } = await getSearchMealsByFirstLetter(input);
-            setHandleProductsInfo(meals && meals.slice(0, 12));
-          } else if (input.length > 1) {
-            window.alert('Your search must have only 1 (one) character');
-          }
-          break;
-        default:
-          window.alert('Please, select an option');
-      }
+      await handleSearchMeals();
+    } else if (location.pathname === '/drinks') {
+      await handleSearchDrinks();
     }
-    if (location.pathname === '/drinks') {
-      switch (filter) {
-        case 'Dname': {
-          const { drinks } = await getSearchDrinksByName(input);
-          setHandleProductsInfo(drinks && drinks.slice(0, 12));
-        }
-          break;
-        case 'Dingredient': {
-          const { drinks } = await getSearchDrinksByIngredient(input);
-          setHandleProductsInfo(drinks && drinks.slice(0, 12));
-        }
-          break;
-        case 'DfirstLetter':
-          if (input.length === 1) {
-            const { drinks } = await getSearchDrinksByFirstLetter(input);
-            setHandleProductsInfo(drinks && drinks.slice(0, 12));
-          } else if (input.length > 1) {
-            window.alert('Your search must have only 1 (one) character');
-          }
-          break;
-        default:
-          window.alert('Please, select an option');
+  };
+
+  const handleSearchMeals = async () => {
+    switch (filter) {
+      case 'Mname': {
+        const { meals } = await getSearchMealsByName(input);
+        setHandleProductsInfo(meals && meals.slice(0, 12));
       }
+        break;
+      case 'Mingredient': {
+        const { meals } = await getSearchMealsByIngredient(input);
+        setHandleProductsInfo(meals && meals.slice(0, 12));
+      }
+        break;
+      case 'MfirstLetter':
+        if (input.length === 1) {
+          const { meals } = await getSearchMealsByFirstLetter(input);
+          setHandleProductsInfo(meals && meals.slice(0, 12));
+        } else if (input.length > 1) {
+          window.alert('Your search must have only 1 (one) character');
+        }
+        break;
+      default:
+        window.alert('Please, select an option');
     }
-  }
+  };
+  const handleSearchDrinks = async () => {
+    switch (filter) {
+      case 'Dname': {
+        const { drinks } = await getSearchDrinksByName(input);
+        setHandleProductsInfo(drinks && drinks.slice(0, 12));
+      }
+        break;
+      case 'Dingredient': {
+        const { drinks } = await getSearchDrinksByIngredient(input);
+        setHandleProductsInfo(drinks && drinks.slice(0, 12));
+      }
+        break;
+      case 'DfirstLetter':
+        if (input.length === 1) {
+          const { drinks } = await getSearchDrinksByFirstLetter(input);
+          setHandleProductsInfo(drinks && drinks.slice(0, 12));
+        } else if (input.length > 1) {
+          window.alert('Your search must have only 1 (one) character');
+        }
+        break;
+      default:
+        window.alert('Please, select an option');
+    }
+  };
 
   return (
     <div>

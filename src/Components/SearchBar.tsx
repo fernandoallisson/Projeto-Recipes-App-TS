@@ -56,23 +56,24 @@ export function SearchBar() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsInfo]);
 
+  // eslint-disable-next-line complexity, sonarjs/cognitive-complexity
   async function handleSearch() {
     if (location.pathname === '/meals') {
       switch (filter) {
         case 'Mname': {
           const { meals } = await getSearchMealsByName(input);
-          setHandleProductsInfo(meals.slice(0, 12));
+          setHandleProductsInfo(meals && meals.slice(0, 12));
         }
           break;
         case 'Mingredient': {
           const { meals } = await getSearchMealsByIngredient(input);
-          setHandleProductsInfo(meals.slice(0, 12));
+          setHandleProductsInfo(meals && meals.slice(0, 12));
         }
           break;
         case 'MfirstLetter':
           if (input.length === 1) {
             const { meals } = await getSearchMealsByFirstLetter(input);
-            setHandleProductsInfo(meals.slice(0, 12));
+            setHandleProductsInfo(meals && meals.slice(0, 12));
           } else if (input.length > 1) {
             window.alert('Your search must have only 1 (one) character');
           }
@@ -85,18 +86,18 @@ export function SearchBar() {
       switch (filter) {
         case 'Dname': {
           const { drinks } = await getSearchDrinksByName(input);
-          setHandleProductsInfo(drinks.slice(0, 12));
+          setHandleProductsInfo(drinks && drinks.slice(0, 12));
         }
           break;
         case 'Dingredient': {
           const { drinks } = await getSearchDrinksByIngredient(input);
-          setHandleProductsInfo(drinks.slice(0, 12));
+          setHandleProductsInfo(drinks && drinks.slice(0, 12));
         }
           break;
         case 'DfirstLetter':
           if (input.length === 1) {
             const { drinks } = await getSearchDrinksByFirstLetter(input);
-            setHandleProductsInfo(drinks.slice(0, 12));
+            setHandleProductsInfo(drinks && drinks.slice(0, 12));
           } else if (input.length > 1) {
             window.alert('Your search must have only 1 (one) character');
           }

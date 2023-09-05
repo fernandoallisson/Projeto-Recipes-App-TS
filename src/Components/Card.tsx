@@ -7,7 +7,7 @@ type CardProps = {
 
 export function Card({ handleClick }: CardProps) {
   const { productsInfo } = useContext(RecipesContext);
-
+  console.log(productsInfo);
   return (
     <div>
       {productsInfo && productsInfo.map((product: any, index: number) => (

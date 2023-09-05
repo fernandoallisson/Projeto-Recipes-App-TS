@@ -2,8 +2,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
 import { Header } from '../Components/Header';
 import App from '../App';
+import { mockFetch } from './mock';
 
 describe('testando a aplicação', () => {
+  beforeEach(() => {
+    mockFetch();
+  });
+
   test('Renderiza o título da aplicação', () => {
     render(
       <MemoryRouter initialEntries={ ['/meals'] }>

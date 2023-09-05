@@ -4,12 +4,12 @@ import { Login } from './Pages/Login';
 import { Meals } from './Pages/Meals';
 import { AuthProvider } from './Context/AuthProvider';
 import { RecipesProvider } from './Context/RecipesProvider';
-import { MealsDetail } from './Pages/MealsDetail';
-import { DrinksDetail } from './Pages/DrinksDetail';
 import { Profile } from './Pages/Profile';
 import { FavoriteRecipes } from './Pages/FavoriteRecipes';
 import { DoneRecipes } from './Pages/DoneRecipes';
 import { Drinks } from './Pages/Drinks';
+import { RecipeDetails } from './Pages/RecipeDetails';
+import { RecipeInProgress } from './Pages/RecipeInProgress';
 
 function App() {
   return (
@@ -19,11 +19,13 @@ function App() {
           <Route path="/" element={ <Login /> } />
           <Route path="/meals" element={ <Meals /> } />
           <Route path="/drinks" element={ <Drinks /> } />
-          <Route path="/meals/:idMeals" element={ <MealsDetail /> } />
-          <Route path="/drinks/:idDrinks" element={ <DrinksDetail /> } />
+          <Route path="/meals/:id" element={ <RecipeDetails /> } />
+          <Route path="/drinks/:id" element={ <RecipeDetails /> } />
           <Route path="/profile" element={ <Profile /> } />
           <Route path="/done-recipes" element={ <DoneRecipes /> } />
           <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />
+          <Route path="/meals/:id/in-progress" element={ <RecipeInProgress /> } />
+          <Route path="/drinks/:id/in-progress" element={ <RecipeInProgress /> } />
         </Routes>
       </RecipesProvider>
     </AuthProvider>

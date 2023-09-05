@@ -72,3 +72,18 @@ footer {
   left: 0;
   position: fixed;
 }
+
+.container {
+  display: flex;
+  overflow-x: scroll;
+}
+
+.riscado {
+  text-decoration: line-through solid black;
+}
+
+.startRecipe {
+  bottom: 0;
+  position: fixed;
+  right: 200px;
+}

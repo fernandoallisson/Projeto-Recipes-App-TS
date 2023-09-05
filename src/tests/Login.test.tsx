@@ -2,12 +2,16 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Login } from '../Pages/Login';
 import App from '../App';
+import { mockFetch } from './mock';
 
 describe('testando a aplicação', () => {
   const EMAILID = 'email-input';
   const PASSWORDID = 'password-input';
   const LOGINBUTTONID = 'login-submit-btn';
   const EMAILTEST = 'teste@teste.com';
+  // beforeEach(() => {
+  //   mockFetch();
+  // });
 
   test('testa se a aplicação tem os elemento necessários do Login', () => {
     render(
@@ -49,6 +53,7 @@ describe('testando a aplicação', () => {
     expect(loginButton).not.toBeDisabled();
   });
   test('testa se a rota muda para /meals', () => {
+    mockFetch();
     render(
       <Router>
         <App />

@@ -1,10 +1,13 @@
 import React from 'react';
-import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { Meals } from '../Pages/Meals';
 import App from '../App';
+import { mockFetch } from './mock';
 
 describe('Footer Component', () => {
+  beforeEach(() => {
+    mockFetch();
+  });
   it('Deve navegar para /drinks quando o botão drinks for clicado', () => {
     render(
       <MemoryRouter initialEntries={ ['/meals'] }>

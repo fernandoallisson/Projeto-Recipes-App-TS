@@ -19,18 +19,11 @@ export function SearchBar() {
   const navigate = useNavigate();
 
   const noProducts = () => {
-    const string = Object.keys(productsInfo)[0];
-    if (string === 'meals') {
-      if (productsInfo.meals === null) {
-        return window.alert("Sorry, we haven't found any recipes for these filters.");
-      }
-    } else if (string === 'drinks') {
-      if (productsInfo.drinks === null) {
-        return window.alert("Sorry, we haven't found any recipes for these filters.");
-      }
-    } else {
+    if (productsInfo === null) {
+      window.alert("Sorry, we haven't found any recipes for these filters.");
       return null;
     }
+    return null;
   };
 
   const handleChangeRadios = (e: any) => {
@@ -42,15 +35,14 @@ export function SearchBar() {
   };
 
   const oneProduct = () => {
-    const string = Object.keys(productsInfo)[0];
-    if (string === 'meals') {
-      if (productsInfo.meals && productsInfo.meals.length === 1) {
-        const idMeals = productsInfo.meals[0].idMeal;
+    if (productsInfo && location.pathname === '/meals') {
+      if (productsInfo.length === 1) {
+        const idMeals = productsInfo[0].idMeal;
         navigate(idMeals);
       }
-    } else if (string === 'drinks') {
-      if (productsInfo.drinks && productsInfo.drinks.length === 1) {
-        const idDrinks = productsInfo.drinks[0].idDrink;
+    } else if (productsInfo && location.pathname === '/drinks') {
+      if (productsInfo.length === 1) {
+        const idDrinks = productsInfo[0].idDrink;
         navigate(idDrinks);
       }
     } else {
@@ -61,46 +53,63 @@ export function SearchBar() {
   useEffect(() => {
     oneProduct();
     noProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsInfo]);
 
   const handleSearch = async () => {
     if (location.pathname === '/meals') {
-      switch (filter) {
-        case 'Mname':
-          setHandleProductsInfo(await getSearchMealsByName(input));
-          break;
-        case 'Mingredient':
-          setHandleProductsInfo(await getSearchMealsByIngredient(input));
-          break;
-        case 'MfirstLetter':
-          if (input.length === 1) {
-            setHandleProductsInfo(await getSearchMealsByFirstLetter(input));
-          } else {
-            window.alert('Your search must have only 1 (one) character');
-          }
-          break;
-        default:
-          window.alert('Please, select an option');
-      }
+      await handleSearchMeals();
+    } else if (location.pathname === '/drinks') {
+      await handleSearchDrinks();
     }
-    if (location.pathname === '/drinks') {
-      switch (filter) {
-        case 'Dname':
-          setHandleProductsInfo(await getSearchDrinksByName(input));
-          break;
-        case 'Dingredient':
-          setHandleProductsInfo(await getSearchDrinksByIngredient(input));
-          break;
-        case 'DfirstLetter':
-          if (input.length === 1) {
-            setHandleProductsInfo(await getSearchDrinksByFirstLetter(input));
-          } else {
-            window.alert('Your search must have only 1 (one) character');
-          }
-          break;
-        default:
-          window.alert('Please, select an option');
+  };
+
+  const handleSearchMeals = async () => {
+    switch (filter) {
+      case 'Mname': {
+        const { meals } = await getSearchMealsByName(input);
+        setHandleProductsInfo(meals && meals.slice(0, 12));
       }
+        break;
+      case 'Mingredient': {
+        const { meals } = await getSearchMealsByIngredient(input);
+        setHandleProductsInfo(meals && meals.slice(0, 12));
+      }
+        break;
+      case 'MfirstLetter':
+        if (input.length === 1) {
+          const { meals } = await getSearchMealsByFirstLetter(input);
+          setHandleProductsInfo(meals && meals.slice(0, 12));
+        } else if (input.length > 1) {
+          window.alert('Your search must have only 1 (one) character');
+        }
+        break;
+      default:
+        window.alert('Please, select an option');
+    }
+  };
+  const handleSearchDrinks = async () => {
+    switch (filter) {
+      case 'Dname': {
+        const { drinks } = await getSearchDrinksByName(input);
+        setHandleProductsInfo(drinks && drinks.slice(0, 12));
+      }
+        break;
+      case 'Dingredient': {
+        const { drinks } = await getSearchDrinksByIngredient(input);
+        setHandleProductsInfo(drinks && drinks.slice(0, 12));
+      }
+        break;
+      case 'DfirstLetter':
+        if (input.length === 1) {
+          const { drinks } = await getSearchDrinksByFirstLetter(input);
+          setHandleProductsInfo(drinks && drinks.slice(0, 12));
+        } else if (input.length > 1) {
+          window.alert('Your search must have only 1 (one) character');
+        }
+        break;
+      default:
+        window.alert('Please, select an option');
     }
   };
 

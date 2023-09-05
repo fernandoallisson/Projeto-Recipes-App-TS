@@ -1,3 +1,1 @@
-export function Teste() {
-  return <div>Teste Sucedido</div>;
-}
+// Arquivo para teste;

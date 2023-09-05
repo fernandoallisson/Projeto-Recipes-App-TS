@@ -3,7 +3,7 @@ import { AuthContext } from '../Context/index';
 import { Header } from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-
+//
 export function FavoriteRecipes() {
   const [linkCopied, setLinkCopied] = useState(false);
   const { emailState } = useContext(AuthContext);

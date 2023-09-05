@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   getSearchDrinksByCategory,
@@ -8,25 +8,27 @@ import {
   getSearchMealsByName,
   getSearchMealsCategories,
 } from '../Services';
+import { RecipesContext } from '../Context';
+import { Card } from './Card';
 
-export function Cards() {
-  const [productsToShow, setProductsToShow] = useState<string[]>([]);
+export function Recipes() {
   const [categories, setCategories] = useState<string[]>([]);
   const [oltCategory, setOltCategory] = useState<string>('');
   const navigate = useNavigate();
   const location = useLocation();
+  const { setHandleProductsInfo } = useContext(RecipesContext);
 
   const fetchProducts = async () => {
     if (location.pathname === '/drinks') {
       const responseDrinks = await getSearchDrinksByName('');
       const { drinks } = responseDrinks;
-      setProductsToShow(drinks.slice(0, 12));
+      setHandleProductsInfo(drinks.slice(0, 12));
     }
 
     if (location.pathname === '/meals') {
       const responseMeals = await getSearchMealsByName('');
       const { meals } = responseMeals;
-      setProductsToShow(meals.slice(0, 12));
+      setHandleProductsInfo(meals.slice(0, 12));
     }
   };
 
@@ -51,13 +53,13 @@ export function Cards() {
       if (location.pathname === '/drinks') {
         const responseDrinks = await getSearchDrinksByCategory(category);
         const { drinks } = responseDrinks;
-        setProductsToShow(drinks.slice(0, 12));
+        setHandleProductsInfo(drinks.slice(0, 12));
         setOltCategory(category);
       }
       if (location.pathname === '/meals') {
         const responseMeals = await getSearchMealsByCategory(category);
         const { meals } = responseMeals;
-        setProductsToShow(meals.slice(0, 12));
+        setHandleProductsInfo(meals.slice(0, 12));
         setOltCategory(category);
       }
     }
@@ -92,31 +94,7 @@ export function Cards() {
       >
         All
       </button>
-      {productsToShow.map((product: any, index: number) => (
-        <div
-          key={ product.idDrink || product.idMeal }
-          data-testid={ `${index}-recipe-card` }
-          role="button"
-          tabIndex={ 0 }
-          onClick={ () => { handleClick(product.idDrink || product.idMeal); } }
-          onKeyDown={ (e) => {
-            if (e.key === 'Enter') {
-              handleClick(product.idDrink || product.idMeal);
-            }
-          } }
-        >
-          <p
-            data-testid={ `${index}-card-name` }
-          >
-            {product.strDrink || product.strMeal}
-          </p>
-          <img
-            src={ product.strDrinkThumb || product.strMealThumb }
-            alt={ product.strDrink || product.strMeal }
-            data-testid={ `${index}-card-img` }
-          />
-        </div>
-      ))}
+      <Card handleClick={ handleClick } />
     </div>
   );
 }

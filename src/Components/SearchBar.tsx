@@ -19,18 +19,11 @@ export function SearchBar() {
   const navigate = useNavigate();
 
   const noProducts = () => {
-    const string = Object.keys(productsInfo)[0];
-    if (string === 'meals') {
-      if (productsInfo.meals === null) {
-        return window.alert("Sorry, we haven't found any recipes for these filters.");
-      }
-    } else if (string === 'drinks') {
-      if (productsInfo.drinks === null) {
-        return window.alert("Sorry, we haven't found any recipes for these filters.");
-      }
-    } else {
+    if (productsInfo === null) {
+      window.alert("Sorry, we haven't found any recipes for these filters.");
       return null;
     }
+    return null;
   };
 
   const handleChangeRadios = (e: any) => {
@@ -42,15 +35,14 @@ export function SearchBar() {
   };
 
   const oneProduct = () => {
-    const string = Object.keys(productsInfo)[0];
-    if (string === 'meals') {
-      if (productsInfo.meals && productsInfo.meals.length === 1) {
-        const idMeals = productsInfo.meals[0].idMeal;
+    if (productsInfo && location.pathname === '/meals') {
+      if (productsInfo.length === 1) {
+        const idMeals = productsInfo[0].idMeal;
         navigate(idMeals);
       }
-    } else if (string === 'drinks') {
-      if (productsInfo.drinks && productsInfo.drinks.length === 1) {
-        const idDrinks = productsInfo.drinks[0].idDrink;
+    } else if (productsInfo && location.pathname === '/drinks') {
+      if (productsInfo.length === 1) {
+        const idDrinks = productsInfo[0].idDrink;
         navigate(idDrinks);
       }
     } else {
@@ -64,19 +56,24 @@ export function SearchBar() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsInfo]);
 
-  const handleSearch = async () => {
+  async function handleSearch() {
     if (location.pathname === '/meals') {
       switch (filter) {
-        case 'Mname':
-          setHandleProductsInfo(await getSearchMealsByName(input));
+        case 'Mname': {
+          const { meals } = await getSearchMealsByName(input);
+          setHandleProductsInfo(meals.slice(0, 12));
+        }
           break;
-        case 'Mingredient':
-          setHandleProductsInfo(await getSearchMealsByIngredient(input));
+        case 'Mingredient': {
+          const { meals } = await getSearchMealsByIngredient(input);
+          setHandleProductsInfo(meals.slice(0, 12));
+        }
           break;
         case 'MfirstLetter':
           if (input.length === 1) {
-            setHandleProductsInfo(await getSearchMealsByFirstLetter(input));
-          } else {
+            const { meals } = await getSearchMealsByFirstLetter(input);
+            setHandleProductsInfo(meals.slice(0, 12));
+          } else if (input.length > 1) {
             window.alert('Your search must have only 1 (one) character');
           }
           break;
@@ -86,16 +83,21 @@ export function SearchBar() {
     }
     if (location.pathname === '/drinks') {
       switch (filter) {
-        case 'Dname':
-          setHandleProductsInfo(await getSearchDrinksByName(input));
+        case 'Dname': {
+          const { drinks } = await getSearchDrinksByName(input);
+          setHandleProductsInfo(drinks.slice(0, 12));
+        }
           break;
-        case 'Dingredient':
-          setHandleProductsInfo(await getSearchDrinksByIngredient(input));
+        case 'Dingredient': {
+          const { drinks } = await getSearchDrinksByIngredient(input);
+          setHandleProductsInfo(drinks.slice(0, 12));
+        }
           break;
         case 'DfirstLetter':
           if (input.length === 1) {
-            setHandleProductsInfo(await getSearchDrinksByFirstLetter(input));
-          } else {
+            const { drinks } = await getSearchDrinksByFirstLetter(input);
+            setHandleProductsInfo(drinks.slice(0, 12));
+          } else if (input.length > 1) {
             window.alert('Your search must have only 1 (one) character');
           }
           break;
@@ -103,7 +105,7 @@ export function SearchBar() {
           window.alert('Please, select an option');
       }
     }
-  };
+  }
 
   return (
     <div>

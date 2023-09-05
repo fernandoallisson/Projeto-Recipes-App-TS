@@ -1,12 +1,12 @@
 import { Footer } from '../Components/Footer';
 import { Header } from '../Components/Header';
-import { Cards } from '../Components/Recipes';
+import { Recipes } from '../Components/Recipes';
 
 export function Drinks() {
   return (
     <div>
       <Header title="Drinks" />
-      <Cards />
+      <Recipes />
       <Footer />
     </div>
   );

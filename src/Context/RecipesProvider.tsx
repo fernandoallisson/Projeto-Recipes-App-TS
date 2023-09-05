@@ -7,13 +7,13 @@ type RecipesProviderProps = {
 };
 
 export function RecipesProvider({ children }: RecipesProviderProps) {
-  const [productsInfo, setProductInfo] = useState<{ meals: []; }>({ meals: [] });
+  const [productsInfo, setProductInfo] = useState<RecipeDetailsType[]>([]);
   const [favorite, setFavorite] = useState<FavoriteType[]>([]);
   const [onlyRecipes, setOnlyRecipes] = useState<RecipeDetailsType>({
   } as RecipeDetailsType);
   const [ingredients, setIngredients] = useState<string[]>([]);
 
-  const setHandleProductsInfo = (recipes: { meals: []; }) => {
+  const setHandleProductsInfo = (recipes: RecipeDetailsType[]) => {
     setProductInfo(recipes);
   };
 

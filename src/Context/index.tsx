@@ -10,7 +10,7 @@ export type RecipesContextType = {
   productsInfo: {
     meals: [];
   } | any;
-  setHandleProductsInfo: (produtcs: { meals: [] }) => void;
+  setHandleProductsInfo: (produtcs: RecipeDetailsType[]) => void;
   hanleSetOnlyRecipes: (produtcs: RecipeDetailsType) => void;
   onlyRecipes: RecipeDetailsType;
   favorite: FavoriteType[] | any;

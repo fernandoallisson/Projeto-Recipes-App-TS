@@ -10,7 +10,10 @@ describe('testando a Search Bar', () => {
   const nameSeacrhRadio = 'name-search-radio';
   const execButton = 'exec-search-btn';
   const firstLetterSearchRadio = 'first-letter-search-radio';
-  mockFetch();
+
+  beforeEach(() => {
+    mockFetch();
+  });
 
   test('Verifica o clique no botão de pesquisa se existe o campo de pesquisa name', () => {
     render(
